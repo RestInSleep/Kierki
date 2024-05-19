@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "untitled4"
+			"path" : "kierki-serwer"
 		}
 	],
 	"backtrace" : 1,
@@ -49,11 +49,13 @@
 			},
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				1,
+				2
 			]
 		}
 	],
-	"id" : "untitled4::@6890427a1f51a3e7e1df",
+	"id" : "kierki-serwer::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -69,8 +71,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "untitled4",
-	"nameOnDisk" : "untitled4",
+	"name" : "kierki-serwer",
+	"nameOnDisk" : "kierki-serwer",
 	"paths" : 
 	{
 		"build" : ".",
@@ -82,7 +84,9 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				1,
+				2
 			]
 		}
 	],
@@ -91,7 +95,19 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "main.cpp",
+			"path" : "kierki-serwer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "err.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "common.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

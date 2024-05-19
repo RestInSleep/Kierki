@@ -1,0 +1,5 @@
+# ninja log v5
+0	21	1716074838179454237	CMakeFiles/kierki-serwer.dir/err.cpp.o	c296d324b05a2715
+0	101	1716074838259457519	CMakeFiles/kierki-serwer.dir/common.cpp.o	4f43f1c778e79a69
+0	337	1716074838495467199	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	3c4f4a567de45637
+337	368	1716074838527468512	kierki-serwer	d25eedc22c8960c6

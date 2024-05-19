@@ -41,35 +41,47 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = /home/jan/CLionProjects/untitled4/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target untitled4
+# Object build statements for EXECUTABLE target kierki-serwer
 
 
 #############################################
-# Order-only phony target for untitled4
+# Order-only phony target for kierki-serwer
 
-build cmake_object_order_depends_target_untitled4: phony || CMakeFiles/untitled4.dir
+build cmake_object_order_depends_target_kierki-serwer: phony || CMakeFiles/kierki-serwer.dir
 
-build CMakeFiles/untitled4.dir/main.cpp.o: CXX_COMPILER__untitled4_unscanned_Debug /home/jan/CLionProjects/untitled4/main.cpp || cmake_object_order_depends_target_untitled4
-  DEP_FILE = CMakeFiles/untitled4.dir/main.cpp.o.d
+build CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: CXX_COMPILER__kierki-serwer_unscanned_Debug /home/jan/CLionProjects/untitled4/kierki-serwer.cpp || cmake_object_order_depends_target_kierki-serwer
+  DEP_FILE = CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/untitled4.dir
-  OBJECT_FILE_DIR = CMakeFiles/untitled4.dir
+  OBJECT_DIR = CMakeFiles/kierki-serwer.dir
+  OBJECT_FILE_DIR = CMakeFiles/kierki-serwer.dir
+
+build CMakeFiles/kierki-serwer.dir/err.cpp.o: CXX_COMPILER__kierki-serwer_unscanned_Debug /home/jan/CLionProjects/untitled4/err.cpp || cmake_object_order_depends_target_kierki-serwer
+  DEP_FILE = CMakeFiles/kierki-serwer.dir/err.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/kierki-serwer.dir
+  OBJECT_FILE_DIR = CMakeFiles/kierki-serwer.dir
+
+build CMakeFiles/kierki-serwer.dir/common.cpp.o: CXX_COMPILER__kierki-serwer_unscanned_Debug /home/jan/CLionProjects/untitled4/common.cpp || cmake_object_order_depends_target_kierki-serwer
+  DEP_FILE = CMakeFiles/kierki-serwer.dir/common.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/kierki-serwer.dir
+  OBJECT_FILE_DIR = CMakeFiles/kierki-serwer.dir
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target untitled4
+# Link build statements for EXECUTABLE target kierki-serwer
 
 
 #############################################
-# Link the executable untitled4
+# Link the executable kierki-serwer
 
-build untitled4: CXX_EXECUTABLE_LINKER__untitled4_Debug CMakeFiles/untitled4.dir/main.cpp.o
+build kierki-serwer: CXX_EXECUTABLE_LINKER__kierki-serwer_Debug CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o CMakeFiles/kierki-serwer.dir/err.cpp.o CMakeFiles/kierki-serwer.dir/common.cpp.o
   FLAGS = -g
-  OBJECT_DIR = CMakeFiles/untitled4.dir
+  OBJECT_DIR = CMakeFiles/kierki-serwer.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = untitled4
-  TARGET_PDB = untitled4.dbg
+  TARGET_FILE = kierki-serwer
+  TARGET_PDB = kierki-serwer.dbg
 
 
 #############################################
@@ -105,7 +117,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /home/jan/CLionProjects/untitled4/cmake-build-debug
 
-build all: phony untitled4
+build all: phony kierki-serwer
 
 # =============================================================================
 # Built-in targets

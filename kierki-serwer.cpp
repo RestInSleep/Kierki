@@ -9,7 +9,6 @@
 #include <algorithm>
 #include <unistd.h>
 #include <cstring>
-#include <fcntl.h>
 #include <fstream>
 #include <poll.h>
 #include <thread>
@@ -23,13 +22,11 @@
 
 
 Player players[4]= {Player(Position::N), Player(Position::E), Player(Position::S), Player(Position::W)};
-std::mutex g_number_of_players_mutex;
+
+
 std::mutex g_number_of_threads_mutex;
 std::condition_variable g_all_players;
 std::condition_variable g_can_use_thread;
-int g_number_of_players = 0;
-bool players_connected[4];
-int player_fd[4];
 int g_threads_accepting_new_connections = 0;
 
 
@@ -59,26 +56,35 @@ void Options::set_timeout(uint32_t t) {
     // It waits until all players have connected.
 void wait_for_all_players() {
     std::unique_lock<std::mutex> lock(g_number_of_players_mutex);
-    g_all_players.wait(lock, []{return g_number_of_players == NO_OF_PLAYERS;});
+    g_all_players.wait(lock, []{return Player::no_of_connected_players()  == NO_OF_PLAYERS;});
 }
 
 void send_busy(int connection_fd) {
    char busy_message[10];
    int i = 4;
    memcpy(busy_message, "BUSY", i);
-   if (players_connected[0]) {
+
+   players[0].lock_connection();
+   if (players[0].is_connected()) {
+       players[0].unlock_connection();
        memcpy(busy_message + i, "N", 1);
        i++;
    }
-    if (players_connected[1]) {
+    players[1].lock_connection();
+    if (players[1].is_connected()) {
+        players[1].unlock_connection();
          memcpy(busy_message + i, "E", 1);
          i++;
     }
-    if (players_connected[2]) {
+    players[2].lock_connection();
+    if (players[2].is_connected()) {
+        players[2].unlock_connection();
          memcpy(busy_message + i, "S", 1);
          i++;
     }
-    if (players_connected[3]) {
+    players[3].lock_connection();
+    if (players[3].is_connected()) {
+        players[3].unlock_connection();
          memcpy(busy_message + i, "W", 1);
          i++;
     }
@@ -97,48 +103,46 @@ void send_busy(int connection_fd) {
 void th_get_player(int connection_fd) {
     std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
     g_threads_accepting_new_connections++;
+    lock.unlock();
     char buffer[7];
     ssize_t length_read = read(connection_fd, buffer, 6);
+
     if (length_read != 6) {
-        printf("Length read: %ld\n", length_read);
-        close(connection_fd);
-        return;
-    }
-    if (g_number_of_players == NO_OF_PLAYERS) {
-        printf("Too many players\n");
-        send_busy(connection_fd);
+        //printf("Length read: %ld\n", length_read);
         close(connection_fd);
         return;
     }
     if (!check_IAM_message(buffer, length_read)) {
-        printf("Not IAM message\n");
+        //printf("Not IAM message\n");
         close(connection_fd);
         return;
     }
     char place_char = buffer[3];
     int player_no = place(place_char);
 
-    std::unique_lock<std::mutex> lock2(g_number_of_players_mutex);
-    if (players_connected[player_no]) {
-        lock2.unlock();
+    players[player_no].lock_connection();
+    if (players[player_no].is_connected()) {
+        players[player_no].unlock_connection();
         send_busy(connection_fd);
         close(connection_fd);
         return;
     }
-    players_connected[player_no] = true;
-    g_number_of_players++;
-    player_fd[player_no] = connection_fd;
+    players[player_no].set_connected(true);
+    players[player_no].set_socket_fd(connection_fd);
 
+    lock.lock();
     g_threads_accepting_new_connections--;
     lock.unlock();
-    lock2.unlock();
+
+    players[player_no].notify_connection();
+    players[player_no].unlock_connection();
+
     g_all_players.notify_all();
     g_can_use_thread.notify_all();
 }
 
 
 void th_accept_connections(int new_connections_fd) {
-   printf("Running th_accept_connections\n");
     while(true) {
         std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
         g_can_use_thread.wait(lock, []{return g_threads_accepting_new_connections < MAX_ACCEPTING_THREADS;});
@@ -270,8 +274,7 @@ void game(const Options& options, int new_connections_fd) {
 }
 
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     Options options = Options();
     get_options(options, argc, argv);
     int new_connections_fd = run_server(options);

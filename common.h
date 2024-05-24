@@ -7,13 +7,16 @@
 
 #include <cinttypes>
 #include <set>
+#include <mutex>
+#include <condition_variable>
+#include <netinet/in.h>
 
 #define QUEUE_LENGTH 5
 #define NO_OF_PLAYERS 4
 #define MAX_HAND_SIZE 13
 #define DECK_SIZE 52
 
-
+std::mutex g_number_of_players_mutex;
 
 enum class card_color_t {
     ERROR = 0,
@@ -68,7 +71,17 @@ class Player {
     int no_of_cards;
     int current_score;
     bool connected;
+    bool my_turn;
     int socket_fd;
+    static int number_of_connected_players;
+    std::mutex connection_mutex;
+    std::condition_variable connection_cv;
+    std::mutex my_turn_mutex;
+    std::condition_variable my_turn_cv;
+    struct sockaddr_in client_address{};
+
+    void reading_thread();
+
 
   public:
     explicit Player(Position position);
@@ -80,6 +93,18 @@ class Player {
     Card get_biggest_smaller_than(Card c);
     [[nodiscard]] Position get_pos() const;
     [[nodiscard]] int get_no_of_cards() const;
+    [[nodiscard]] int get_current_score() const;
+    [[nodiscard]] bool is_connected() const;
+    void lock_connection();
+    void unlock_connection();
+    void lock_my_turn();
+    void unlock_my_turn();
+    void start_reading_thread();
+    void set_socket_fd(int fd);
+    void set_connected(bool c);
+    void notify_connection();
+    static int no_of_connected_players();
+
 
 };
 

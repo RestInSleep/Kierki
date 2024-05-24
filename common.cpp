@@ -10,6 +10,8 @@
 #include <regex>
 #include <sys/socket.h>
 #include <string_view>
+#include <condition_variable>
+#include <thread>
 #include <iostream>
 #include "err.h"
 #include "common.h"
@@ -19,6 +21,7 @@ const std::string_view color_regex_string = "[CDHS]";
 const std::string_view trick_number_regex_string = "[0123456789(10)(11)(12)(13)]";
 const std::string_view card_regex_string = "(10|[0123456789JQKA])[CDHS]";
 
+int Player::number_of_connected_players = 0;
 
 uint16_t read_port(char const *string) {
 char *endptr;
@@ -60,6 +63,8 @@ Card::Card(int color, int value) : color(static_cast<card_color_t>(color)), valu
     this->current_score = 0;
     this->connected = false;
     this->socket_fd = -1;
+    this->my_turn = false;
+    this->client_address = {};
 }
 
 void Player::add_card(Card c) {
@@ -142,23 +147,71 @@ int Player::get_no_of_cards() const {
 }
 
 
-ssize_t readn(int fd, void *vptr, size_t n) {
-    ssize_t nleft, nread;
-    char *ptr;
 
-    ptr = static_cast<char *>(vptr);
-    nleft = n;
-    while (nleft > 0) {
-        if ((nread = read(fd, ptr, nleft)) < 0)
-            return nread;     // When error, return < 0.
-        else if (nread == 0)
-            break;            // EOF
-
-        nleft -= nread;
-        ptr += nread;
-    }
-    return n - nleft;         // return >= 0
+bool Player::is_connected() const {
+    return this->connected;
 }
+
+void Player::set_connected(bool c) {
+    this->connected = c;
+}
+
+int Player::get_current_score() const {
+    return this->current_score;
+}
+
+
+void Player::start_reading_thread() {
+    std::thread(&Player::reading_thread, this).detach();
+}
+
+
+// This thread should be started after every player is connected first.
+// This is because the condition check !this->connected works well
+// only after disconnection, not before connection.
+void Player::reading_thread() {
+    char buffer[1024];
+    ssize_t length_read;
+    while (true) {
+        std::unique_lock<std::mutex> lock(this->connection_mutex);
+        if (!this->connected) {
+            this->connection_cv.wait(lock, [this] { return this->connected;});
+            // now we are connected again
+            lock.unlock();
+
+        }
+    }
+}
+
+void Player::lock_connection() {
+    this->connection_mutex.lock();
+}
+
+void Player::unlock_connection() {
+    this->connection_mutex.unlock();
+}
+
+void Player::lock_my_turn() {
+    this->my_turn_mutex.lock();
+}
+
+void Player::unlock_my_turn() {
+    this->my_turn_mutex.unlock();
+}
+
+void Player::set_socket_fd(int fd) {
+    this->socket_fd = fd;
+}
+
+void Player::notify_connection() {
+    this->connection_cv.notify_all();
+}
+
+int Player::no_of_connected_players() {
+    return Player::number_of_connected_players;
+}
+
+
 
 
 void set_timeout(int socket_fd, int timeout) {
@@ -296,6 +349,25 @@ ssize_t writen(int fd, const void *vptr, size_t n) {
         ptr += nwritten;
     }
     return n;
+}
+
+
+ssize_t readn(int fd, void *vptr, size_t n) {
+    ssize_t nleft, nread;
+    char *ptr;
+
+    ptr = static_cast<char *>(vptr);
+    nleft = n;
+    while (nleft > 0) {
+        if ((nread = read(fd, ptr, nleft)) < 0)
+            return nread;     // When error, return < 0.
+        else if (nread == 0)
+            break;            // EOF
+
+        nleft -= nread;
+        ptr += nread;
+    }
+    return n - nleft;         // return >= 0
 }
 
 int place(char p) {

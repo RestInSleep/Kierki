@@ -7,6 +7,7 @@
 
 #include "common.h"
 
+#define MAX_ACCEPTING_THREADS 4
 class Options {
     uint16_t port;
     std::string filename;

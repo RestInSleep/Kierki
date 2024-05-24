@@ -195,13 +195,52 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: \
  /usr/include/c++/12/fstream /usr/include/c++/12/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
- /usr/include/c++/12/bits/fstream.tcc \
+ /usr/include/c++/12/bits/fstream.tcc /usr/include/poll.h \
+ /usr/include/x86_64-linux-gnu/sys/poll.h \
+ /usr/include/x86_64-linux-gnu/bits/poll.h /usr/include/c++/12/thread \
+ /usr/include/c++/12/stop_token /usr/include/c++/12/atomic \
+ /usr/include/c++/12/bits/atomic_base.h \
+ /usr/include/c++/12/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/12/bits/atomic_wait.h /usr/include/c++/12/climits \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/syscall.h \
+ /usr/include/x86_64-linux-gnu/sys/syscall.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
+ /usr/include/x86_64-linux-gnu/bits/syscall.h \
+ /usr/include/c++/12/bits/std_mutex.h \
+ /usr/include/c++/12/bits/std_thread.h /usr/include/c++/12/tuple \
+ /usr/include/c++/12/bits/uses_allocator.h \
+ /usr/include/c++/12/bits/unique_ptr.h /usr/include/c++/12/semaphore \
+ /usr/include/c++/12/bits/semaphore_base.h \
+ /usr/include/c++/12/bits/chrono.h /usr/include/c++/12/ratio \
+ /usr/include/c++/12/limits /usr/include/c++/12/ctime \
+ /usr/include/c++/12/bits/parse_numbers.h \
+ /usr/include/c++/12/bits/atomic_timed_wait.h \
+ /usr/include/c++/12/bits/this_thread_sleep.h \
+ /usr/include/x86_64-linux-gnu/sys/time.h /usr/include/semaphore.h \
+ /usr/include/x86_64-linux-gnu/bits/semaphore.h /usr/include/c++/12/mutex \
+ /usr/include/c++/12/bits/unique_lock.h /usr/include/c++/12/sstream \
+ /usr/include/c++/12/bits/sstream.tcc \
+ /usr/include/c++/12/condition_variable \
+ /usr/include/c++/12/bits/shared_ptr.h \
+ /usr/include/c++/12/bits/shared_ptr_base.h \
+ /usr/include/c++/12/bits/allocated_ptr.h \
+ /usr/include/c++/12/ext/aligned_buffer.h \
+ /usr/include/c++/12/ext/concurrence.h /usr/include/c++/12/bit \
+ /usr/include/c++/12/bits/align.h \
+ /usr/include/c++/12/bits/stl_uninitialized.h \
  /home/jan/CLionProjects/untitled4/err.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h \
  /home/jan/CLionProjects/untitled4/common.h /usr/include/c++/12/cinttypes \
  /usr/include/inttypes.h /usr/include/c++/12/set \
  /usr/include/c++/12/bits/stl_tree.h \
- /usr/include/c++/12/ext/aligned_buffer.h \
  /usr/include/c++/12/bits/node_handle.h \
  /usr/include/c++/12/bits/stl_set.h \
  /usr/include/c++/12/bits/stl_multiset.h \

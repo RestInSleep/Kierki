@@ -40,7 +40,7 @@ enum class card_value_t {
     A,
 };
 
-enum class position_t {
+enum class Position {
     N,
     E,
     S,
@@ -63,31 +63,37 @@ class Card {
 };
 
 class Player {
-    position_t position;
+    Position position;
     std::set<Card> hand;
     int no_of_cards;
     int current_score;
+    bool connected;
+    int socket_fd;
 
   public:
-    explicit Player(position_t position);
+    explicit Player(Position position);
     void add_card(Card c);
     bool has_card(Card c);
     void remove_card(Card c);
     bool has_card_of_color(card_color_t c);
     Card get_biggest_of_color(card_color_t c);
     Card get_biggest_smaller_than(Card c);
-    [[nodiscard]] position_t get_pos() const;
+    [[nodiscard]] Position get_pos() const;
     [[nodiscard]] int get_no_of_cards() const;
 
 };
 
-
-
-
-
+bool check_IAM_message(const char* buffer, ssize_t length_read);
+int check_TRICK_from_client(const char* buffer, ssize_t length_read);
 
 uint16_t read_port(char const *string);
 
+ssize_t readn(int fd, void *vptr, size_t n);
 
+ssize_t writen(int fd, const void *vptr, size_t n);
+
+void set_timeout(int socket_fd, uint32_t timeout);
+
+int place(char p);
 
 #endif //KIERKI_COMMON_H

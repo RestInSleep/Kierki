@@ -276,6 +276,42 @@ CMakeFiles/kierki-serwer.dir/common.cpp.o: /home/jan/CLionProjects/untitled4/com
   /usr/include/x86_64-linux-gnu/asm/sockios.h \
   /usr/include/asm-generic/sockios.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
+  /usr/include/c++/12/condition_variable \
+  /usr/include/c++/12/bits/chrono.h \
+  /usr/include/c++/12/ratio \
+  /usr/include/c++/12/limits \
+  /usr/include/c++/12/bits/parse_numbers.h \
+  /usr/include/c++/12/bits/std_mutex.h \
+  /usr/include/c++/12/bits/unique_lock.h \
+  /usr/include/c++/12/stop_token \
+  /usr/include/c++/12/atomic \
+  /usr/include/c++/12/bits/atomic_base.h \
+  /usr/include/c++/12/bits/atomic_lockfree_defines.h \
+  /usr/include/c++/12/bits/atomic_wait.h \
+  /usr/include/c++/12/climits \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/syscall.h \
+  /usr/include/x86_64-linux-gnu/sys/syscall.h \
+  /usr/include/x86_64-linux-gnu/asm/unistd.h \
+  /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
+  /usr/include/x86_64-linux-gnu/bits/syscall.h \
+  /usr/include/c++/12/bits/std_thread.h \
+  /usr/include/c++/12/semaphore \
+  /usr/include/c++/12/bits/semaphore_base.h \
+  /usr/include/c++/12/bits/atomic_timed_wait.h \
+  /usr/include/c++/12/bits/this_thread_sleep.h \
+  /usr/include/x86_64-linux-gnu/sys/time.h \
+  /usr/include/semaphore.h \
+  /usr/include/x86_64-linux-gnu/bits/semaphore.h \
+  /usr/include/c++/12/thread \
   /usr/include/c++/12/iostream \
   /home/jan/CLionProjects/untitled4/err.h \
   /usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h \
@@ -283,7 +319,11 @@ CMakeFiles/kierki-serwer.dir/common.cpp.o: /home/jan/CLionProjects/untitled4/com
   /usr/include/c++/12/set \
   /usr/include/c++/12/bits/stl_set.h \
   /usr/include/c++/12/bits/stl_multiset.h \
-  /usr/include/c++/12/bits/erase_if.h
+  /usr/include/c++/12/bits/erase_if.h \
+  /usr/include/c++/12/mutex \
+  /usr/include/netinet/in.h \
+  /usr/include/x86_64-linux-gnu/bits/in.h \
+  /usr/include/c++/12/vector
 
 CMakeFiles/kierki-serwer.dir/err.cpp.o: /home/jan/CLionProjects/untitled4/err.cpp \
   /usr/include/stdc-predef.h \
@@ -593,20 +633,11 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
   /usr/include/c++/12/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
-  /usr/include/fcntl.h \
-  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
-  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
-  /usr/include/linux/falloc.h \
-  /usr/include/x86_64-linux-gnu/bits/stat.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
   /usr/include/c++/12/fstream \
   /usr/include/c++/12/bits/codecvt.h \
   /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
   /usr/include/c++/12/bits/fstream.tcc \
-  /usr/include/poll.h \
-  /usr/include/x86_64-linux-gnu/sys/poll.h \
-  /usr/include/x86_64-linux-gnu/bits/poll.h \
   /usr/include/c++/12/thread \
   /usr/include/c++/12/stop_token \
   /usr/include/c++/12/atomic \
@@ -669,10 +700,38 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
   /usr/include/c++/12/bits/stl_set.h \
   /usr/include/c++/12/bits/stl_multiset.h \
   /usr/include/c++/12/bits/erase_if.h \
+  /usr/include/c++/12/vector \
+  /usr/include/c++/12/bits/stl_vector.h \
+  /usr/include/c++/12/bits/stl_bvector.h \
+  /usr/include/c++/12/bits/vector.tcc \
   /home/jan/CLionProjects/untitled4/kierki-serwer.h
 
 
-/usr/include/c++/12/condition_variable:
+/usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h:
+
+/usr/include/c++/12/fstream:
+
+/usr/include/strings.h:
+
+/usr/include/string.h:
+
+/usr/include/c++/12/stdlib.h:
+
+/home/jan/CLionProjects/untitled4/err.cpp:
+
+/usr/include/x86_64-linux-gnu/bits/in.h:
+
+/usr/include/netinet/in.h:
+
+/usr/include/c++/12/bits/stl_multiset.h:
+
+/home/jan/CLionProjects/untitled4/common.h:
+
+/usr/include/c++/12/bits/fstream.tcc:
+
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h:
+
+/home/jan/CLionProjects/untitled4/err.h:
 
 /usr/include/x86_64-linux-gnu/bits/semaphore.h:
 
@@ -682,15 +741,13 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
 
 /usr/include/c++/12/bits/this_thread_sleep.h:
 
-/usr/include/c++/12/bits/parse_numbers.h:
+/usr/include/c++/12/bits/erase_if.h:
 
-/usr/include/c++/12/limits:
+/usr/include/c++/12/bits/atomic_timed_wait.h:
 
 /usr/include/c++/12/bits/semaphore_base.h:
 
 /usr/include/c++/12/semaphore:
-
-/usr/include/c++/12/bits/std_mutex.h:
 
 /usr/include/x86_64-linux-gnu/bits/syscall.h:
 
@@ -718,47 +775,13 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
 
 /usr/include/c++/12/atomic:
 
-/usr/include/x86_64-linux-gnu/bits/poll.h:
+/usr/include/c++/12/bits/std_mutex.h:
 
-/usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h:
+/usr/include/c++/12/bits/parse_numbers.h:
 
-/usr/include/c++/12/fstream:
+/usr/include/c++/12/limits:
 
-/usr/include/x86_64-linux-gnu/bits/struct_stat.h:
-
-/usr/include/x86_64-linux-gnu/bits/stat.h:
-
-/usr/include/x86_64-linux-gnu/bits/fcntl-linux.h:
-
-/usr/include/fcntl.h:
-
-/usr/include/linux/falloc.h:
-
-/usr/include/x86_64-linux-gnu/bits/in.h:
-
-/usr/include/netinet/in.h:
-
-/usr/include/strings.h:
-
-/usr/include/string.h:
-
-/usr/include/c++/12/stdlib.h:
-
-/home/jan/CLionProjects/untitled4/err.cpp:
-
-/usr/include/c++/12/bits/atomic_timed_wait.h:
-
-/usr/include/c++/12/bits/erase_if.h:
-
-/usr/include/c++/12/bits/stl_multiset.h:
-
-/home/jan/CLionProjects/untitled4/common.h:
-
-/usr/include/c++/12/bits/fstream.tcc:
-
-/usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h:
-
-/home/jan/CLionProjects/untitled4/err.h:
+/usr/include/c++/12/condition_variable:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h:
 
@@ -832,9 +855,9 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
 
 /usr/include/c++/12/bits/stl_iterator_base_types.h:
 
-/usr/include/c++/12/bits/atomic_base.h:
-
 /usr/include/arpa/inet.h:
+
+/usr/include/c++/12/bits/atomic_base.h:
 
 /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_base.h:
 
@@ -954,8 +977,6 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
 
 /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h:
 
-/usr/include/x86_64-linux-gnu/bits/fcntl.h:
-
 /usr/include/c++/12/bits/locale_classes.tcc:
 
 /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_inline.h:
@@ -964,13 +985,13 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
-/usr/include/poll.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
 /usr/include/c++/12/bits/stl_tempbuf.h:
 
 /usr/include/x86_64-linux-gnu/bits/endian.h:
+
+/usr/include/c++/12/vector:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
@@ -995,8 +1016,6 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
 /usr/include/c++/12/bits/algorithmfwd.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
-
-/usr/include/x86_64-linux-gnu/sys/poll.h:
 
 /usr/include/c++/12/cinttypes:
 

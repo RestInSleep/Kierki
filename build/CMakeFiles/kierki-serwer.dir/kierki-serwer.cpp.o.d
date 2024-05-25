@@ -187,17 +187,11 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
  /usr/include/linux/close_range.h /usr/include/c++/12/cstring \
- /usr/include/string.h /usr/include/strings.h /usr/include/fcntl.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
- /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
- /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
- /usr/include/c++/12/fstream /usr/include/c++/12/bits/codecvt.h \
+ /usr/include/string.h /usr/include/strings.h /usr/include/c++/12/fstream \
+ /usr/include/c++/12/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
- /usr/include/c++/12/bits/fstream.tcc /usr/include/poll.h \
- /usr/include/x86_64-linux-gnu/sys/poll.h \
- /usr/include/x86_64-linux-gnu/bits/poll.h /usr/include/c++/12/thread \
+ /usr/include/c++/12/bits/fstream.tcc /usr/include/c++/12/thread \
  /usr/include/c++/12/stop_token /usr/include/c++/12/atomic \
  /usr/include/c++/12/bits/atomic_base.h \
  /usr/include/c++/12/bits/atomic_lockfree_defines.h \
@@ -244,5 +238,8 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: \
  /usr/include/c++/12/bits/node_handle.h \
  /usr/include/c++/12/bits/stl_set.h \
  /usr/include/c++/12/bits/stl_multiset.h \
- /usr/include/c++/12/bits/erase_if.h \
+ /usr/include/c++/12/bits/erase_if.h /usr/include/c++/12/vector \
+ /usr/include/c++/12/bits/stl_vector.h \
+ /usr/include/c++/12/bits/stl_bvector.h \
+ /usr/include/c++/12/bits/vector.tcc \
  /home/jan/CLionProjects/untitled4/kierki-serwer.h

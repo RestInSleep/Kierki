@@ -129,6 +129,30 @@ kierki-serwer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/build
 .PHONY : kierki-serwer/fast
 
+cards.o: cards.cpp.o
+.PHONY : cards.o
+
+# target to build an object file
+cards.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/cards.cpp.o
+.PHONY : cards.cpp.o
+
+cards.i: cards.cpp.i
+.PHONY : cards.i
+
+# target to preprocess a source file
+cards.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/cards.cpp.i
+.PHONY : cards.cpp.i
+
+cards.s: cards.cpp.s
+.PHONY : cards.s
+
+# target to generate assembly for a file
+cards.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/cards.cpp.s
+.PHONY : cards.cpp.s
+
 common.o: common.cpp.o
 .PHONY : common.o
 
@@ -201,6 +225,30 @@ kierki-serwer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.s
 .PHONY : kierki-serwer.cpp.s
 
+player.o: player.cpp.o
+.PHONY : player.o
+
+# target to build an object file
+player.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/player.cpp.o
+.PHONY : player.cpp.o
+
+player.i: player.cpp.i
+.PHONY : player.i
+
+# target to preprocess a source file
+player.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/player.cpp.i
+.PHONY : player.cpp.i
+
+player.s: player.cpp.s
+.PHONY : player.s
+
+# target to generate assembly for a file
+player.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/player.cpp.s
+.PHONY : player.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -210,6 +258,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... kierki-serwer"
+	@echo "... cards.o"
+	@echo "... cards.i"
+	@echo "... cards.s"
 	@echo "... common.o"
 	@echo "... common.i"
 	@echo "... common.s"
@@ -219,6 +270,9 @@ help:
 	@echo "... kierki-serwer.o"
 	@echo "... kierki-serwer.i"
 	@echo "... kierki-serwer.s"
+	@echo "... player.o"
+	@echo "... player.i"
+	@echo "... player.s"
 .PHONY : help
 
 

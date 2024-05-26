@@ -81,12 +81,12 @@ clean: CMakeFiles/kierki-serwer.dir/clean
 CMakeFiles/kierki-serwer.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jan/CLionProjects/untitled4/build/CMakeFiles --progress-num=1,2,3,4 "Built target kierki-serwer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jan/CLionProjects/untitled4/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target kierki-serwer"
 .PHONY : CMakeFiles/kierki-serwer.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/kierki-serwer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/CLionProjects/untitled4/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/CLionProjects/untitled4/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/kierki-serwer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/CLionProjects/untitled4/build/CMakeFiles 0
 .PHONY : CMakeFiles/kierki-serwer.dir/rule

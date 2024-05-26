@@ -13,10 +13,13 @@
 #include <thread>
 #include <mutex>
 #include <sstream>
+
 #include <condition_variable>
 #include "err.h"
 #include "common.h"
 #include "kierki-serwer.h"
+#include "player.h"
+#include "cards.h"
 
 
 
@@ -55,83 +58,85 @@ void Options::set_timeout(uint32_t t) {
     // It waits until all players have connected.
 void wait_for_all_players() {
     std::unique_lock<std::mutex> lock(g_number_of_players_mutex);
-    g_all_players.wait(lock, []{return Player::no_of_connected_players()  == NO_OF_PLAYERS;});
+    g_all_players.wait(lock, []{return Player::no_of_connected_players() == NO_OF_PLAYERS;});
 }
 
 void send_busy(int connection_fd) {
-   char busy_message[10];
-   int i = 4;
-   memcpy(busy_message, "BUSY", i);
+    char busy_message[10];
+   int mess_index = 4;
+   memcpy(busy_message, "BUSY", mess_index);
 
-   players[0].lock_connection();
-   if (players[0].is_connected()) {
-       players[0].unlock_connection();
-       memcpy(busy_message + i, "N", 1);
-       i++;
+
+   for (int j = 0; j < 4; j++) {
+       players[j].lock_connection();
+       if (players[j].is_connected()) {
+           players[j].unlock_connection();
+              busy_message[mess_index] = position_to_char.at(j);
+           mess_index++;
+       }
+       players[j].unlock_connection();
    }
-    players[1].lock_connection();
-    if (players[1].is_connected()) {
-        players[1].unlock_connection();
-         memcpy(busy_message + i, "E", 1);
-         i++;
-    }
-    players[2].lock_connection();
-    if (players[2].is_connected()) {
-        players[2].unlock_connection();
-         memcpy(busy_message + i, "S", 1);
-         i++;
-    }
-    players[3].lock_connection();
-    if (players[3].is_connected()) {
-        players[3].unlock_connection();
-         memcpy(busy_message + i, "W", 1);
-         i++;
-    }
-    busy_message[i] = '\r';
-    i++;
-    busy_message[i] = '\n';
-    i++;
-    writen(connection_fd, busy_message, i);
+    busy_message[mess_index] = '\r';
+    mess_index++;
+    busy_message[mess_index] = '\n';
+    mess_index++;
+    writen(connection_fd, busy_message, mess_index);
+    std::cout << "Busy message sent" << std::endl;
 }
-
-
 
 
 
 
 void th_get_player(int connection_fd) {
-    std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
-    g_threads_accepting_new_connections++;
-    lock.unlock();
+    {
+        std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
+        g_threads_accepting_new_connections++;
+        std::cout << g_threads_accepting_new_connections << " threads accepting new connections" << std::endl;
+    }
     char buffer[7];
     ssize_t length_read = read(connection_fd, buffer, 6);
+    std::cout << "Length read: " << length_read << std::endl;
 
     if (length_read != 6) {
-        //printf("Length read: %ld\n", length_read);
+        std::cout << "Not enough bytes read" << std::endl;
+        {
+            std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
+            g_threads_accepting_new_connections--;
+        }
         close(connection_fd);
         return;
     }
     if (!check_IAM_message(buffer, length_read)) {
-        //printf("Not IAM message\n");
+        std::cout << "Not an IAM message" << std::endl;
+        {
+            std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
+            g_threads_accepting_new_connections--;
+        }
         close(connection_fd);
         return;
     }
     char place_char = buffer[3];
-    int player_no = place(place_char);
+    int player_no = char_to_position.at(place_char);
 
     players[player_no].lock_connection();
     if (players[player_no].is_connected()) {
         players[player_no].unlock_connection();
+        {
+            std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
+            g_threads_accepting_new_connections--;
+        }
         send_busy(connection_fd);
         close(connection_fd);
         return;
     }
     players[player_no].set_connected(true);
     players[player_no].set_socket_fd(connection_fd);
+    Player::add_connected_player();
 
-    lock.lock();
-    g_threads_accepting_new_connections--;
-    lock.unlock();
+    {
+        std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
+        g_threads_accepting_new_connections--;
+    }
 
     players[player_no].unlock_connection();
     players[player_no].notify_connection();
@@ -143,10 +148,14 @@ void th_get_player(int connection_fd) {
 
 void th_accept_connections(int new_connections_fd) {
     while(true) {
-        std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
-        g_can_use_thread.wait(lock, []{return g_threads_accepting_new_connections < MAX_ACCEPTING_THREADS;});
-        lock.unlock();
+        {
+            std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
+            g_can_use_thread.wait(lock, [] { return g_threads_accepting_new_connections < MAX_ACCEPTING_THREADS; });
+        }
         int connection_fd = accept(new_connections_fd, nullptr, nullptr);
+        if (connection_fd < 0) {
+            continue;
+        }
         std::thread(th_get_player, connection_fd).detach();
     }
 }
@@ -200,14 +209,6 @@ void get_options(Options& options, int argc, char * argv[]) {
 }
 
 int run_server(Options& options) {
-
-    //TODO remove
-    std::cout << "Running server with options: " << std::endl;
-    std::cout << "Port: " << options.get_port() << std::endl;
-    std::cout << "Filename: " << options.get_filename() << std::endl;
-    std::cout << "Timeout: " << options.get_timeout() << std::endl;
-    std::cout << "Server is running..." << std::endl;
-
     // We create a IPv6 socket and later set off IPV6_V6ONLY
     // so that the server can accept both IPv4 and IPv6 connections.
     int new_connections_fd = socket(AF_INET6, SOCK_STREAM, 0);
@@ -251,9 +252,6 @@ int run_server(Options& options) {
     return new_connections_fd;
 }
 
-void get_players(const Options& options, int new_connections_fd, const std::istream& file) {
-
-}
 
 std::ifstream open_file(const std::string& filename) {
     std::ifstream file;
@@ -287,6 +285,7 @@ void game(const Options& options, int new_connections_fd) {
             players[i].set_hand(create_card_set_from_string(starting_hands[i]));
         }
 
+
         round_count++;
         Position trick_starting_player = round.get_starting_player();
 
@@ -300,7 +299,6 @@ void game(const Options& options, int new_connections_fd) {
             Position trick_winner = trick.get_taking_player();
             players[static_cast<int>(trick_winner)].add_points(trick_value);
             round.add_points(trick_value, trick_winner);
-
         }
     }
 }

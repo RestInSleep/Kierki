@@ -1,21 +1,5 @@
 # ninja log v5
-0	21	1716074838179454237	CMakeFiles/kierki-serwer.dir/err.cpp.o	c296d324b05a2715
-0	101	1716074838259457519	CMakeFiles/kierki-serwer.dir/common.cpp.o	4f43f1c778e79a69
-0	337	1716074838495467199	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	3c4f4a567de45637
-337	368	1716074838527468512	kierki-serwer	d25eedc22c8960c6
-1	388	1716307888925461968	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	3c4f4a567de45637
-1	1618	1716307890149513450	CMakeFiles/kierki-serwer.dir/common.cpp.o	4f43f1c778e79a69
-1618	1681	1716307890217516310	kierki-serwer	d25eedc22c8960c6
-0	352	1716307903834088718	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	3c4f4a567de45637
-352	406	1716307903890091072	kierki-serwer	d25eedc22c8960c6
-0	334	1716307913842509132	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	3c4f4a567de45637
-334	388	1716307913894511315	kierki-serwer	d25eedc22c8960c6
-1	387	1716331272493567362	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	3c4f4a567de45637
-1	1676	1716331273781619826	CMakeFiles/kierki-serwer.dir/common.cpp.o	4f43f1c778e79a69
-1676	1740	1716331273845622433	kierki-serwer	d25eedc22c8960c6
-0	1634	1716331351384779103	CMakeFiles/kierki-serwer.dir/common.cpp.o	4f43f1c778e79a69
-1634	1687	1716331351444781544	kierki-serwer	d25eedc22c8960c6
-1	338	1716331413675312869	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	3c4f4a567de45637
-338	393	1716331413731315147	kierki-serwer	d25eedc22c8960c6
-0	330	1716331421699639147	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	3c4f4a567de45637
 330	386	1716331421751641260	kierki-serwer	d25eedc22c8960c6
+0	1634	1716331351384779103	CMakeFiles/kierki-serwer.dir/common.cpp.o	4f43f1c778e79a69
+0	21	1716074838179454237	CMakeFiles/kierki-serwer.dir/err.cpp.o	c296d324b05a2715
+0	330	1716331421699639147	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	3c4f4a567de45637

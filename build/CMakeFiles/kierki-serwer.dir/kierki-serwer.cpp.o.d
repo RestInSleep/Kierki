@@ -241,5 +241,11 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: \
  /usr/include/c++/12/bits/erase_if.h /usr/include/c++/12/vector \
  /usr/include/c++/12/bits/stl_vector.h \
  /usr/include/c++/12/bits/stl_bvector.h \
- /usr/include/c++/12/bits/vector.tcc \
- /home/jan/CLionProjects/untitled4/kierki-serwer.h
+ /usr/include/c++/12/bits/vector.tcc /usr/include/c++/12/unordered_map \
+ /usr/include/c++/12/bits/hashtable.h \
+ /usr/include/c++/12/bits/hashtable_policy.h \
+ /usr/include/c++/12/bits/enable_special_members.h \
+ /usr/include/c++/12/bits/unordered_map.h \
+ /home/jan/CLionProjects/untitled4/kierki-serwer.h \
+ /home/jan/CLionProjects/untitled4/player.h \
+ /home/jan/CLionProjects/untitled4/cards.h

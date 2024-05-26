@@ -5,7 +5,7 @@
 #ifndef KIERKI_KIERKI_SERWER_H
 #define KIERKI_KIERKI_SERWER_H
 
-#include "common.h"
+
 
 #define MAX_ACCEPTING_THREADS 4
 class Options {

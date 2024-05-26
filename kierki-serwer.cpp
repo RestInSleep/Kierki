@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <cstring>
 #include <fstream>
-#include <poll.h>
 #include <thread>
 #include <mutex>
 #include <sstream>
@@ -134,8 +133,8 @@ void th_get_player(int connection_fd) {
     g_threads_accepting_new_connections--;
     lock.unlock();
 
-    players[player_no].notify_connection();
     players[player_no].unlock_connection();
+    players[player_no].notify_connection();
 
     g_all_players.notify_all();
     g_can_use_thread.notify_all();
@@ -268,9 +267,42 @@ std::ifstream open_file(const std::string& filename) {
 void game(const Options& options, int new_connections_fd) {
     std::ifstream game_file = open_file(options.get_filename());
     std::thread(th_accept_connections, new_connections_fd).detach();
-    wait_for_all_players();
+    wait_for_all_players(); // blocks until all players have connected
+    for (auto & player : players) {
+        player.start_reading_thread();
+    }
+    std::string starting_settings;
+    int round_count = 0;
 
+    while (std::getline(game_file, starting_settings)) { // there is another round!
+        std::string starting_hands[4];
+        for (int i = 0; i < 4; i++) {
+            std::getline(game_file, starting_hands[i]);
+        }
+        Round round = Round(get_round_type_from_sett(starting_settings),
+                            get_start_pos_from_sett(starting_settings),
+                            starting_hands);
 
+        for (int i = 0; i < 4; i++) {
+            players[i].set_hand(create_card_set_from_string(starting_hands[i]));
+        }
+
+        round_count++;
+        Position trick_starting_player = round.get_starting_player();
+
+        for (int j = 1; j <= MAX_HAND_SIZE; j++) { // number of tricks
+            Trick trick = Trick(trick_starting_player, j, round.get_round_type());
+            for (int i = 0; i < 4; i++) {
+                players[static_cast<int>(trick_starting_player) + i % NO_OF_PLAYERS].play_card(trick);
+            }
+            // everybody played a card
+            int trick_value = trick.evaluate_trick();
+            Position trick_winner = trick.get_taking_player();
+            players[static_cast<int>(trick_winner)].add_points(trick_value);
+            round.add_points(trick_value, trick_winner);
+
+        }
+    }
 }
 
 

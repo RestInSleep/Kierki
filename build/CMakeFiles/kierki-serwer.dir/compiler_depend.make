@@ -313,6 +313,8 @@ CMakeFiles/kierki-serwer.dir/common.cpp.o: /home/jan/CLionProjects/untitled4/com
   /usr/include/x86_64-linux-gnu/bits/semaphore.h \
   /usr/include/c++/12/thread \
   /usr/include/c++/12/iostream \
+  /usr/include/c++/12/utility \
+  /usr/include/c++/12/bits/stl_relops.h \
   /home/jan/CLionProjects/untitled4/err.h \
   /usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h \
   /home/jan/CLionProjects/untitled4/common.h \
@@ -732,6 +734,10 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h:
 
 /home/jan/CLionProjects/untitled4/err.h:
+
+/usr/include/c++/12/bits/stl_relops.h:
+
+/usr/include/c++/12/utility:
 
 /usr/include/x86_64-linux-gnu/bits/semaphore.h:
 

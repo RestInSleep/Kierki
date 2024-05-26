@@ -314,6 +314,8 @@ CMakeFiles/kierki-serwer.dir/common.cpp.o
  /usr/include/x86_64-linux-gnu/bits/semaphore.h
  /usr/include/c++/12/thread
  /usr/include/c++/12/iostream
+ /usr/include/c++/12/utility
+ /usr/include/c++/12/bits/stl_relops.h
  /home/jan/CLionProjects/untitled4/err.h
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h
  /home/jan/CLionProjects/untitled4/common.h

@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/jan/CLionProjects/untitled4/build
 
 # The main recursive "all" target.
 all: CMakeFiles/kierki-serwer.dir/all
+all: CMakeFiles/kierki-klient.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -72,6 +73,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/kierki-serwer.dir/clean
+clean: CMakeFiles/kierki-klient.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -81,7 +83,7 @@ clean: CMakeFiles/kierki-serwer.dir/clean
 CMakeFiles/kierki-serwer.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jan/CLionProjects/untitled4/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target kierki-serwer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jan/CLionProjects/untitled4/build/CMakeFiles --progress-num=7,8,9,10,11,12 "Built target kierki-serwer"
 .PHONY : CMakeFiles/kierki-serwer.dir/all
 
 # Build rule for subdir invocation for target.
@@ -99,6 +101,32 @@ kierki-serwer: CMakeFiles/kierki-serwer.dir/rule
 CMakeFiles/kierki-serwer.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/clean
 .PHONY : CMakeFiles/kierki-serwer.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/kierki-klient.dir
+
+# All Build rule for target.
+CMakeFiles/kierki-klient.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jan/CLionProjects/untitled4/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target kierki-klient"
+.PHONY : CMakeFiles/kierki-klient.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/kierki-klient.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/CLionProjects/untitled4/build/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/kierki-klient.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/CLionProjects/untitled4/build/CMakeFiles 0
+.PHONY : CMakeFiles/kierki-klient.dir/rule
+
+# Convenience name for target.
+kierki-klient: CMakeFiles/kierki-klient.dir/rule
+.PHONY : kierki-klient
+
+# clean rule for target.
+CMakeFiles/kierki-klient.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/clean
+.PHONY : CMakeFiles/kierki-klient.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

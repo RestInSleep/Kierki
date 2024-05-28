@@ -1,0 +1,1 @@
+/usr/bin/c++ "CMakeFiles/kierki-klient.dir/kierki-klient.cpp.o" "CMakeFiles/kierki-klient.dir/err.cpp.o" "CMakeFiles/kierki-klient.dir/common.cpp.o" "CMakeFiles/kierki-klient.dir/player.cpp.o" "CMakeFiles/kierki-klient.dir/cards.cpp.o" -o kierki-klient 

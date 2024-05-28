@@ -129,12 +129,26 @@ kierki-serwer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/build
 .PHONY : kierki-serwer/fast
 
+#=============================================================================
+# Target rules for targets named kierki-klient
+
+# Build rule for target.
+kierki-klient: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kierki-klient
+.PHONY : kierki-klient
+
+# fast build rule for target.
+kierki-klient/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/build
+.PHONY : kierki-klient/fast
+
 cards.o: cards.cpp.o
 .PHONY : cards.o
 
 # target to build an object file
 cards.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/cards.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/cards.cpp.o
 .PHONY : cards.cpp.o
 
 cards.i: cards.cpp.i
@@ -143,6 +157,7 @@ cards.i: cards.cpp.i
 # target to preprocess a source file
 cards.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/cards.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/cards.cpp.i
 .PHONY : cards.cpp.i
 
 cards.s: cards.cpp.s
@@ -151,6 +166,7 @@ cards.s: cards.cpp.s
 # target to generate assembly for a file
 cards.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/cards.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/cards.cpp.s
 .PHONY : cards.cpp.s
 
 common.o: common.cpp.o
@@ -159,6 +175,7 @@ common.o: common.cpp.o
 # target to build an object file
 common.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/common.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/common.cpp.o
 .PHONY : common.cpp.o
 
 common.i: common.cpp.i
@@ -167,6 +184,7 @@ common.i: common.cpp.i
 # target to preprocess a source file
 common.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/common.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/common.cpp.i
 .PHONY : common.cpp.i
 
 common.s: common.cpp.s
@@ -175,6 +193,7 @@ common.s: common.cpp.s
 # target to generate assembly for a file
 common.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/common.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/common.cpp.s
 .PHONY : common.cpp.s
 
 err.o: err.cpp.o
@@ -183,6 +202,7 @@ err.o: err.cpp.o
 # target to build an object file
 err.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/err.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/err.cpp.o
 .PHONY : err.cpp.o
 
 err.i: err.cpp.i
@@ -191,6 +211,7 @@ err.i: err.cpp.i
 # target to preprocess a source file
 err.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/err.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/err.cpp.i
 .PHONY : err.cpp.i
 
 err.s: err.cpp.s
@@ -199,7 +220,32 @@ err.s: err.cpp.s
 # target to generate assembly for a file
 err.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/err.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/err.cpp.s
 .PHONY : err.cpp.s
+
+kierki-klient.o: kierki-klient.cpp.o
+.PHONY : kierki-klient.o
+
+# target to build an object file
+kierki-klient.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/kierki-klient.cpp.o
+.PHONY : kierki-klient.cpp.o
+
+kierki-klient.i: kierki-klient.cpp.i
+.PHONY : kierki-klient.i
+
+# target to preprocess a source file
+kierki-klient.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/kierki-klient.cpp.i
+.PHONY : kierki-klient.cpp.i
+
+kierki-klient.s: kierki-klient.cpp.s
+.PHONY : kierki-klient.s
+
+# target to generate assembly for a file
+kierki-klient.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/kierki-klient.cpp.s
+.PHONY : kierki-klient.cpp.s
 
 kierki-serwer.o: kierki-serwer.cpp.o
 .PHONY : kierki-serwer.o
@@ -231,6 +277,7 @@ player.o: player.cpp.o
 # target to build an object file
 player.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/player.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/player.cpp.o
 .PHONY : player.cpp.o
 
 player.i: player.cpp.i
@@ -239,6 +286,7 @@ player.i: player.cpp.i
 # target to preprocess a source file
 player.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/player.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/player.cpp.i
 .PHONY : player.cpp.i
 
 player.s: player.cpp.s
@@ -247,6 +295,7 @@ player.s: player.cpp.s
 # target to generate assembly for a file
 player.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-serwer.dir/build.make CMakeFiles/kierki-serwer.dir/player.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kierki-klient.dir/build.make CMakeFiles/kierki-klient.dir/player.cpp.s
 .PHONY : player.cpp.s
 
 # Help Target
@@ -257,6 +306,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... kierki-klient"
 	@echo "... kierki-serwer"
 	@echo "... cards.o"
 	@echo "... cards.i"
@@ -267,6 +317,9 @@ help:
 	@echo "... err.o"
 	@echo "... err.i"
 	@echo "... err.s"
+	@echo "... kierki-klient.o"
+	@echo "... kierki-klient.i"
+	@echo "... kierki-klient.s"
 	@echo "... kierki-serwer.o"
 	@echo "... kierki-serwer.i"
 	@echo "... kierki-serwer.s"

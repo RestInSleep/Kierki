@@ -1,4 +1,4 @@
-CMakeFiles/kierki-serwer.dir/cards.cpp.o: \
+CMakeFiles/kierki-klient.dir/cards.cpp.o: \
  /home/jan/CLionProjects/untitled4/cards.cpp /usr/include/stdc-predef.h \
  /home/jan/CLionProjects/untitled4/cards.h \
  /home/jan/CLionProjects/untitled4/common.h /usr/include/c++/12/cinttypes \

@@ -228,7 +228,13 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: \
  /usr/include/c++/12/bits/hashtable.h \
  /usr/include/c++/12/bits/hashtable_policy.h \
  /usr/include/c++/12/bits/enable_special_members.h \
- /usr/include/c++/12/bits/unordered_map.h \
+ /usr/include/c++/12/bits/unordered_map.h /usr/include/c++/12/functional \
+ /usr/include/c++/12/bits/std_function.h /usr/include/c++/12/array \
+ /usr/include/c++/12/bits/stl_algo.h \
+ /usr/include/c++/12/bits/algorithmfwd.h \
+ /usr/include/c++/12/bits/stl_heap.h \
+ /usr/include/c++/12/bits/stl_tempbuf.h \
+ /usr/include/c++/12/bits/uniform_int_dist.h \
  /home/jan/CLionProjects/untitled4/cards.h \
  /home/jan/CLionProjects/untitled4/err.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h

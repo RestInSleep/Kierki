@@ -1,4 +1,4 @@
-CMakeFiles/kierki-serwer.dir/common.cpp.o: \
+CMakeFiles/kierki-klient.dir/common.cpp.o: \
  /home/jan/CLionProjects/untitled4/common.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/12/cinttypes /usr/include/c++/12/cstdint \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \

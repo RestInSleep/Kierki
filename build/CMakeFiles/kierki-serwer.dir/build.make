@@ -156,6 +156,8 @@ kierki-serwer: CMakeFiles/kierki-serwer.dir/common.cpp.o
 kierki-serwer: CMakeFiles/kierki-serwer.dir/player.cpp.o
 kierki-serwer: CMakeFiles/kierki-serwer.dir/cards.cpp.o
 kierki-serwer: CMakeFiles/kierki-serwer.dir/build.make
+kierki-serwer: /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.74.0
+kierki-serwer: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0
 kierki-serwer: CMakeFiles/kierki-serwer.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jan/CLionProjects/untitled4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable kierki-serwer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/kierki-serwer.dir/link.txt --verbose=$(VERBOSE)

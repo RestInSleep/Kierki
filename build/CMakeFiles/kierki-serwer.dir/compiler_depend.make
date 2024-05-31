@@ -1688,6 +1688,29 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
   /usr/include/boost/program_options/detail/convert.hpp \
   /usr/include/boost/program_options/variables_map.hpp \
   /usr/include/boost/program_options/version.hpp \
+  /usr/include/c++/12/csignal \
+  /usr/include/signal.h \
+  /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
+  /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/siginfo_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
+  /usr/include/x86_64-linux-gnu/bits/siginfo-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/siginfo-consts.h \
+  /usr/include/x86_64-linux-gnu/bits/siginfo-consts-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigval_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
+  /usr/include/x86_64-linux-gnu/bits/sigevent-consts.h \
+  /usr/include/x86_64-linux-gnu/bits/sigaction.h \
+  /usr/include/x86_64-linux-gnu/bits/sigcontext.h \
+  /usr/include/x86_64-linux-gnu/bits/types/stack_t.h \
+  /usr/include/x86_64-linux-gnu/sys/ucontext.h \
+  /usr/include/x86_64-linux-gnu/bits/sigstack.h \
+  /usr/include/x86_64-linux-gnu/bits/sigstksz.h \
+  /usr/include/x86_64-linux-gnu/bits/ss_flags.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h \
+  /usr/include/x86_64-linux-gnu/bits/sigthread.h \
+  /usr/include/x86_64-linux-gnu/bits/signal_ext.h \
   /usr/include/c++/12/condition_variable \
   /home/jan/CLionProjects/untitled4/err.h \
   /usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h \
@@ -1999,6 +2022,16 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 
 /home/jan/CLionProjects/untitled4/player.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigevent-consts.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigval_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/siginfo_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/signum-generic.h:
+
 /usr/include/boost/program_options/variables_map.hpp:
 
 /usr/include/boost/program_options/detail/convert.hpp:
@@ -2059,6 +2092,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 
 /usr/include/boost/mpl/less_equal.hpp:
 
+/usr/include/x86_64-linux-gnu/bits/signum-arch.h:
+
 /usr/include/boost/mpl/comparison.hpp:
 
 /usr/include/boost/mpl/iterator_range.hpp:
@@ -2115,6 +2150,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 
 /usr/include/boost/mpl/limits/vector.hpp:
 
+/usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h:
+
 /usr/include/boost/mpl/aux_/push_front_impl.hpp:
 
 /usr/include/boost/mpl/push_front.hpp:
@@ -2134,6 +2171,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/boost/mpl/at.hpp:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/fold_impl.hpp:
+
+/usr/include/c++/12/csignal:
 
 /usr/include/boost/mpl/aux_/fold_impl.hpp:
 
@@ -2595,6 +2634,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 
 /usr/include/boost/preprocessor/control/detail/while.hpp:
 
+/usr/include/x86_64-linux-gnu/bits/sigstack.h:
+
 /usr/include/boost/type_traits/is_convertible.hpp:
 
 /usr/include/boost/preprocessor/list/detail/fold_right.hpp:
@@ -2608,6 +2649,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/boost/preprocessor/logical/compl.hpp:
 
 /usr/include/boost/preprocessor/detail/check.hpp:
+
+/usr/include/x86_64-linux-gnu/sys/ucontext.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h:
 
@@ -2703,6 +2746,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 
 /usr/include/c++/12/bits/stl_pair.h:
 
+/usr/include/x86_64-linux-gnu/bits/sigaction.h:
+
 /usr/include/c++/12/concepts:
 
 /usr/include/boost/numeric/conversion/detail/udt_builtin_mixture.hpp:
@@ -2736,6 +2781,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/pthread.h:
 
 /usr/include/c++/12/bits/stl_iterator_base_funcs.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigcontext.h:
 
 /usr/include/c++/12/cstdio:
 
@@ -2874,6 +2921,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/c++/12/ext/string_conversions.h:
 
 /usr/include/boost/preprocessor/facilities/identity.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/siginfo-arch.h:
 
 /usr/include/boost/preprocessor/cat.hpp:
 
@@ -3101,6 +3150,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 
 /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h:
 
+/usr/include/x86_64-linux-gnu/bits/signal_ext.h:
+
 /usr/include/x86_64-linux-gnu/bits/types.h:
 
 /usr/include/boost/program_options/detail/parsers.hpp:
@@ -3134,6 +3185,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/boost/preprocessor/repetition/enum_binary_params.hpp:
 
 /home/jan/CLionProjects/untitled4/common.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigstksz.h:
 
 /usr/include/c++/12/cinttypes:
 
@@ -3176,6 +3229,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_base.h:
 
 /usr/include/c++/12/bits/atomic_base.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigthread.h:
 
 /usr/include/boost/mpl/protect.hpp:
 
@@ -3303,6 +3358,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 
 /usr/include/c++/12/bits/concept_check.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h:
+
 /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h:
 
 /usr/include/sched.h:
@@ -3343,6 +3400,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
+/usr/include/x86_64-linux-gnu/bits/ss_flags.h:
+
 /usr/include/x86_64-linux-gnu/sys/syscall.h:
 
 /usr/include/c++/12/bits/refwrap.h:
@@ -3366,6 +3425,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/boost/mpl/aux_/preprocessed/gcc/quote.hpp:
 
 /usr/include/linux/errno.h:
+
+/usr/include/x86_64-linux-gnu/bits/siginfo-consts.h:
 
 /home/jan/CLionProjects/untitled4/kierki-serwer.cpp:
 
@@ -3414,6 +3475,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/boost/mpl/aux_/lambda_arity_param.hpp:
 
 /usr/include/c++/12/bits/atomic_wait.h:
+
+/usr/include/signal.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
@@ -3464,6 +3527,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/c++/12/bits/basic_string.h:
 
 /usr/include/c++/12/stdexcept:
+
+/usr/include/x86_64-linux-gnu/bits/siginfo-consts-arch.h:
 
 /usr/include/c++/12/cctype:
 
@@ -3684,6 +3749,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/string.h:
 
 /usr/include/strings.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/stack_t.h:
 
 /usr/include/c++/12/fstream:
 
@@ -3908,6 +3975,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/boost/type_traits/enable_if.hpp:
 
 /usr/include/boost/function_equal.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
 
 /usr/include/boost/bind/mem_fn.hpp:
 

@@ -910,18 +910,6 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
   /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
   /usr/include/netinet/in.h \
   /usr/include/x86_64-linux-gnu/bits/in.h \
-  /usr/include/arpa/inet.h \
-  /usr/include/c++/12/algorithm \
-  /usr/include/c++/12/bits/stl_algo.h \
-  /usr/include/c++/12/bits/algorithmfwd.h \
-  /usr/include/c++/12/bits/stl_heap.h \
-  /usr/include/c++/12/bits/stl_tempbuf.h \
-  /usr/include/c++/12/bits/uniform_int_dist.h \
-  /usr/include/c++/12/bits/ranges_algo.h \
-  /usr/include/c++/12/bits/ranges_algobase.h \
-  /usr/include/c++/12/bits/ranges_util.h \
-  /usr/include/c++/12/pstl/glue_algorithm_defs.h \
-  /usr/include/c++/12/pstl/execution_defs.h \
   /usr/include/unistd.h \
   /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
   /usr/include/x86_64-linux-gnu/bits/environments.h \
@@ -978,8 +966,6 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
   /usr/include/x86_64-linux-gnu/bits/semaphore.h \
   /usr/include/c++/12/mutex \
   /usr/include/c++/12/bits/unique_lock.h \
-  /usr/include/c++/12/sstream \
-  /usr/include/c++/12/bits/sstream.tcc \
   /usr/include/boost/program_options.hpp \
   /usr/include/boost/program_options/options_description.hpp \
   /usr/include/boost/program_options/config.hpp \
@@ -1055,6 +1041,17 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
   /usr/include/boost/function/detail/prologue.hpp \
   /usr/include/c++/12/cassert \
   /usr/include/assert.h \
+  /usr/include/c++/12/algorithm \
+  /usr/include/c++/12/bits/stl_algo.h \
+  /usr/include/c++/12/bits/algorithmfwd.h \
+  /usr/include/c++/12/bits/stl_heap.h \
+  /usr/include/c++/12/bits/stl_tempbuf.h \
+  /usr/include/c++/12/bits/uniform_int_dist.h \
+  /usr/include/c++/12/bits/ranges_algo.h \
+  /usr/include/c++/12/bits/ranges_algobase.h \
+  /usr/include/c++/12/bits/ranges_util.h \
+  /usr/include/c++/12/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/12/pstl/execution_defs.h \
   /usr/include/boost/config/no_tr1/functional.hpp \
   /usr/include/c++/12/functional \
   /usr/include/c++/12/bits/std_function.h \
@@ -1465,6 +1462,8 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: /home/jan/CLionProjects/untitl
   /usr/include/libintl.h \
   /usr/include/c++/12/bits/locale_facets_nonio.tcc \
   /usr/include/c++/12/bits/locale_conv.h \
+  /usr/include/c++/12/sstream \
+  /usr/include/c++/12/bits/sstream.tcc \
   /usr/include/boost/lexical_cast/detail/lcast_char_constants.hpp \
   /usr/include/boost/lexical_cast/detail/lcast_unsigned_converters.hpp \
   /usr/include/boost/noncopyable.hpp \
@@ -2704,6 +2703,8 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 
 /usr/include/c++/12/bits/stl_pair.h:
 
+/usr/include/c++/12/concepts:
+
 /usr/include/boost/numeric/conversion/detail/udt_builtin_mixture.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
@@ -2761,10 +2762,6 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/boost/preprocessor/tuple/eat.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
-
-/usr/include/boost/preprocessor/detail/is_binary.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/select.h:
 
 /usr/include/c++/12/bits/basic_ios.tcc:
 
@@ -3180,10 +3177,6 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 
 /usr/include/c++/12/bits/atomic_base.h:
 
-/usr/include/c++/12/concepts:
-
-/usr/include/arpa/inet.h:
-
 /usr/include/boost/mpl/protect.hpp:
 
 /usr/include/c++/12/bits/stl_iterator_base_types.h:
@@ -3339,6 +3332,10 @@ CMakeFiles/kierki-serwer.dir/player.cpp.o: /home/jan/CLionProjects/untitled4/pla
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
 /usr/include/c++/12/bits/ostream.tcc:
+
+/usr/include/x86_64-linux-gnu/bits/select.h:
+
+/usr/include/boost/preprocessor/detail/is_binary.hpp:
 
 /usr/include/c++/12/bits/uses_allocator.h:
 

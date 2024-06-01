@@ -120,6 +120,8 @@ Position get_start_pos_from_sett(std::string& s);
 
 std::set<Card> create_card_set_from_string(const std::string& s);
 
+std::vector<Card> create_card_vector_from_string(const std::string& s);
+
 
 
 #endif //KIERKI_CARDS_H

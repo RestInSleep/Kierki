@@ -6,6 +6,7 @@
 #include <boost/program_options.hpp>
 #include <netdb.h>
 #include <csignal>
+#include <regex>
 #include "kierki-klient.h"
 #include "err.h"
 #include "common.h"
@@ -82,6 +83,23 @@ void print_card_set(const std::set<Card>& s) {
     }
 }
 
+
+
+
+void print_card_vector(const std::vector<Card>& v) {
+    if (v.empty()) {
+        return;
+    }
+
+    auto last = --v.end();
+    for (auto it = v.begin(); it != v.end(); ++it) {
+        it->print_card();
+        if (it != last) {
+            std::cout << ", ";
+        }
+    }
+}
+
 void ClientPlayer::print_hand() {
     print_card_set(hand);
 }
@@ -116,12 +134,29 @@ Card ClientPlayer::get_biggest_of_color(card_color_t c) const {
     return biggest;
 }
 
+void ClientTrick::print_trick() const {
+    print_card_vector(played_cards);
+}
+
+void ClientTrick::set_played_cards(const std::vector<Card>& c) {
+    played_cards = c;
+}
+
+
 bool ClientPlayer::get_play_now() const {
     return play_now;
 }
 
 void ClientPlayer::set_play_now(bool p) {
     play_now = p;
+}
+
+void ClientPlayer::add_trick(const ClientTrick& t) {
+    taken_tricks.push_back(t);
+}
+
+void ClientPlayer::clean_tricks() {
+    taken_tricks.clear();
 }
 
 
@@ -273,8 +308,6 @@ int process_message(const std::string& message, ClientPlayer& player) {
         int round_type = message[4] - '0';
         char starting_player = message[5];
         std::string hand_str = message.substr(6);
-        auto length = hand_str.size();
-        hand_str.erase(length - 2, 2);
         std::set<Card> hand = create_card_set_from_string(hand_str);
         {
             std::unique_lock<std::mutex> lock = player.get_cards_lock();
@@ -286,32 +319,50 @@ int process_message(const std::string& message, ClientPlayer& player) {
 
     }
     else if (message.starts_with("WRONG")) {
-        auto length = message.size();
         std::string wrong_str = message;
-        wrong_str.erase(length - 2, 2);
         wrong_str = wrong_str.substr(5);
         std::cout << "Wrong message received in trick " << wrong_str << ".\n";
+        std::unique_lock<std::mutex> lock = player.get_cards_lock();
         player.set_play_now(false);
     }
     else if (message.starts_with("TAKEN")) {
-        std::string taken_message= message.substr(5);
+        std::string taken_message = message.substr(5);
         std::string trick_number = taken_message[0] == '1' ? taken_message.substr(0, 2) : taken_message.substr(0, 1);
         size_t trick_number_length = trick_number.size();
         taken_message.erase(0, trick_number_length);
         size_t length = taken_message.size();
-        char position = taken_message[length - 3];
-        std::string cards_str = taken_message.substr(0, length - 3);
-        std::set<Card> cards = create_card_set_from_string(cards_str);
+        char position = taken_message[length - 1];
+        std::string cards_str = taken_message.substr(0, length - 1);
+        std::vector<Card> cards = create_card_vector_from_string(cards_str);
         std::cout << "A trick " << trick_number << " is taken by " << position << " with cards ";
-        print_card_set(cards);
+        print_card_vector(cards);
         std::cout << ".\n";
-        if (char_to_position.at(position) == player.get_pos()) {
-
+        std::unique_lock<std::mutex> lock = player.get_cards_lock();
+        if (char_to_position.at(position) == player.get_pos()) { // we took the trick
+            ClientTrick trick(cards);
+            player.add_trick(trick);
         }
-
-
-
+        player.set_play_now(false);
     }
+    else if (message.starts_with("SCORE")) {
+        std::string score_message = message.substr(5);
+        std::string positions =  "NESW";
+        for (char pos : positions) {
+            auto p = score_message.find(pos);
+            p++;
+            for (auto n_end = p; n_end < score_message.size(); n_end++) {
+                if (score_message[n_end] >= '0' && score_message[n_end] <= '9') {
+                    n_end++;
+                } else {
+
+
+                }
+
+            }
+        }
+    }
+
+
 }
 
 

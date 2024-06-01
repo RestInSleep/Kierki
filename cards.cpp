@@ -311,3 +311,80 @@ int Trick::get_trick_number() const {
 int Trick::get_round_type() const {
     return this->round_type;
 }
+
+std::vector<Card> create_card_vector_from_string(const std::string& s) {
+    std::vector<Card> cards{};
+    int i{0};
+    while (s[i] != '\0') {
+        card_value_t value;
+        card_color_t color;
+        switch (s[i]) {
+            case '1':
+                if (s[++i] != '0') {
+                    value = card_value_t::NONE;
+                    break;
+                }
+                value = card_value_t::TEN;
+                break;
+
+            case '2':
+                value = card_value_t::TWO;
+                break;
+            case '3':
+                value = card_value_t::THREE;
+                break;
+            case '4':
+                value = card_value_t::FOUR;
+                break;
+            case '5':
+                value = card_value_t::FIVE;
+                break;
+            case '6':
+                value = card_value_t::SIX;
+                break;
+            case '7':
+                value = card_value_t::SEVEN;
+                break;
+            case '8':
+                value = card_value_t::EIGHT;
+                break;
+            case '9':
+                value = card_value_t::NINE;
+                break;
+            case 'J':
+                value = card_value_t::J;
+                break;
+            case 'Q':
+                value = card_value_t::Q;
+                break;
+            case 'K':
+                value = card_value_t::K;
+                break;
+            case 'A':
+                value = card_value_t::A;
+                break;
+            default:
+                value = card_value_t::NONE;
+        }
+        i++;
+        switch (s[i]) {
+            case 'C':
+                color = card_color_t::C;
+                break;
+            case 'D':
+                color = card_color_t::D;
+                break;
+            case 'H':
+                color = card_color_t::H;
+                break;
+            case 'S':
+                color = card_color_t::S;
+                break;
+            default:
+                color = card_color_t::NONE;
+        }
+        i++;
+        cards.push_back(Card(color, value));
+    }
+    return cards;
+}

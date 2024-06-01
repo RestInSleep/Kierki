@@ -8,6 +8,7 @@
 #include <string>
 #include <cinttypes>
 #include <set>
+#include <vector>
 #include "cards.h"
 
 
@@ -31,11 +32,12 @@ public:
     [[nodiscard]] bool get_automatic() const;
     [[nodiscard]] uint16_t get_ip_version() const;
 };
+class ClientTrick;
 
 class ClientPlayer {
     std::set<Card> hand;
     Position position;
-    std::vector<CLientTrick> taken_tricks;
+    std::vector<ClientTrick> taken_tricks;
     std::mutex cards_mutex;
     int current_round_type;
     bool play_now;
@@ -57,12 +59,21 @@ public:
     [[nodiscard]] std::set<Card> get_hand() const;
     void set_play_now(bool p);
     [[nodiscard]] bool get_play_now() const;
+    void add_trick(const ClientTrick& t);
+    void clean_tricks();
 };
 
 void print_card_set(const std::set<Card>& s);
 
+void print_card_vector(const std::vector<Card>& v);
+
 class ClientTrick {
-    std::set<Card> played_cards;
+    std::vector<Card> played_cards;
+
+public:
+    ClientTrick(const std::vector<Card>& played_cards);
+    void set_played_cards(const std::vector<Card>& c);
+    void print_trick() const;
 
 };
 

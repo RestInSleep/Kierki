@@ -12,6 +12,8 @@
 #include <netinet/in.h>
 #include <vector>
 #include <unordered_map>
+#include <functional>
+#include "cards.h"
 
 
 
@@ -20,14 +22,8 @@
 #define MAX_HAND_SIZE 13
 
 
-extern std::mutex g_number_of_players_mutex;
-extern const std::unordered_map<int, char>  position_to_char;
-extern const std::unordered_map<int, char>  char_to_position;
-
-
-
-
-
+extern const std::unordered_map<int, char>  position_no_to_char;
+extern const std::unordered_map<int, char>  char_to_position_no;
 
 
 bool check_IAM_message(const char* buffer, ssize_t length_read);
@@ -45,6 +41,14 @@ void set_timeout(int socket_fd, uint32_t timeout);
 
 
 int get_round_type_from_sett(std::string& s);
+
+std::string get_cmd_option(char ** begin, char ** end, const std::string& option);
+
+bool cmd_option_exists(char** begin, char** end, const std::string& option);
+
+bool conditional_cmd_option_exists(char** begin, char** end, const std::function<bool(const std::string&)> &condition);
+
+std::string conditional_get_cmd_option(char ** begin, char ** end, const std::function<bool(const std::string&)> &condition);
 
 
 

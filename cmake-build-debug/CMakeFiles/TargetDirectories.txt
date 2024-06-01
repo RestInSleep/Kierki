@@ -1,3 +1,4 @@
 /home/jan/CLionProjects/untitled4/cmake-build-debug/CMakeFiles/kierki-serwer.dir
+/home/jan/CLionProjects/untitled4/cmake-build-debug/CMakeFiles/kierki-klient.dir
 /home/jan/CLionProjects/untitled4/cmake-build-debug/CMakeFiles/edit_cache.dir
 /home/jan/CLionProjects/untitled4/cmake-build-debug/CMakeFiles/rebuild_cache.dir

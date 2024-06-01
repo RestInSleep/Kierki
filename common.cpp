@@ -12,19 +12,21 @@
 #include <thread>
 #include <iostream>
 #include <unordered_map>
+#include <algorithm>
+#include <functional>
 #include "err.h"
+#include "cards.h"
 #include "common.h"
-
 
 
 constexpr std::string_view value_regex_string = "(10|[23456789JQKA])";
 const std::string_view color_regex_string = "[CDHS]";
 const std::string_view trick_number_regex_string = "[0123456789(10)(11)(12)(13)]";
 const std::string_view card_regex_string = "(10|[0123456789JQKA])[CDHS]";
-const std::unordered_map<int, char>  position_to_char = {{0, 'N'}, {1, 'E'}, {2, 'S'}, {3, 'W'}};
-const std::unordered_map<int, char>  char_to_position = {{'N', 0}, {'E', 1}, {'S', 2}, {'W', 3}};
 
-std::mutex g_number_of_players_mutex;
+
+
+
 
 uint16_t read_port(char const *string) {
     char *endptr;
@@ -163,13 +165,13 @@ int check_TRICK_from_client(const char *buffer, ssize_t length_read) {
 ssize_t writen(int fd, const void *vptr, size_t n) {
     ssize_t nleft, nwritten;
     const char *ptr;
-
     ptr = static_cast<const char *>(vptr);               // Can't do pointer arithmetic on void*.
     nleft = n;
     while (nleft > 0) {
-        if ((nwritten = write(fd, ptr, nleft)) <= 0)
+        if ((nwritten = write(fd, ptr, nleft)) <= 0) {
+           std::cout << "nwritten: " << nwritten << std::endl;
             return nwritten;  // error
-
+        }
         nleft -= nwritten;
         ptr += nwritten;
     }
@@ -199,4 +201,36 @@ int get_round_type_from_sett(std::string &s) {
     size_t length = s.size();
     std::string round_type = s.substr(0, length - 1);
     return std::stoi(round_type);
+}
+
+
+std::string get_cmd_option(char ** begin, char ** end, const std::string& option)
+{
+    char ** itr = std::find(begin, end, option);
+    if (itr != end && ++itr != end)
+    {
+        std::string str = *itr;
+        return str;
+    }
+    fatal("Option %s was not given a value despite being mentioned", option.c_str());
+}
+
+bool cmd_option_exists(char** begin, char** end, const std::string& option)
+{
+    return std::find(begin, end, option) != end;
+}
+
+
+bool conditional_cmd_option_exists(char** begin, char** end, const std::function<bool(const std::string&)> &condition) {
+    return std::find_if(begin, end, condition) != end;
+}
+
+std::string conditional_get_cmd_option(char ** begin, char ** end, const std::function<bool(const std::string&)> &condition) {
+    char ** itr = std::find_if(begin, end, condition);
+    if (itr != end && ++itr != end)
+    {
+        std::string str = *itr;
+        return str;
+    }
+    fatal("Option was not given a value despite being mentioned");
 }

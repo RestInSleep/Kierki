@@ -6,7 +6,7 @@
 #define KIERKI_KIERKI_SERWER_H
 
 
-
+#include "player.h"
 #define MAX_ACCEPTING_THREADS 4
 class Options {
     uint16_t port;
@@ -21,6 +21,13 @@ public:
     [[nodiscard]] std::string get_filename() const;
     [[nodiscard]] uint32_t get_timeout() const;
 };
+
+bool all_players_connected(const std::vector<Player>& players);
+
+void wait_for_all_players(Player* players);
+
+void send_busy(int connection_fd, Player *players, int pos);
+
 
 
 

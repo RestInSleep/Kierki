@@ -1,5 +1,7 @@
 # ninja log v5
-330	386	1716331421751641260	kierki-serwer	d25eedc22c8960c6
-0	1634	1716331351384779103	CMakeFiles/kierki-serwer.dir/common.cpp.o	4f43f1c778e79a69
-0	21	1716074838179454237	CMakeFiles/kierki-serwer.dir/err.cpp.o	c296d324b05a2715
-0	330	1716331421699639147	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	3c4f4a567de45637
+1705	1785	1717182709473639141	kierki-serwer	9828a61b71e95fd9
+1	695	1717182708381594291	CMakeFiles/kierki-serwer.dir/player.cpp.o	11868e8dbf7ac6f9
+1	1866	1717180837933013088	CMakeFiles/kierki-serwer.dir/common.cpp.o	1f21acd95391eb42
+0	21	1717098412758518688	CMakeFiles/kierki-serwer.dir/err.cpp.o	f3032ce4c1c3531
+1	1705	1717182709389635691	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	c42b11dec1c2212c
+1	875	1717174849161806767	CMakeFiles/kierki-serwer.dir/cards.cpp.o	a66b8dd43777077d

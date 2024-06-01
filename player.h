@@ -8,7 +8,7 @@
 #include "common.h"
 #include "cards.h"
 
-
+extern std::mutex g_number_of_players_mutex;
 
 class Player {
     Position position;
@@ -20,21 +20,21 @@ class Player {
     bool card_played;
     Card played_card;
     int socket_fd;
-    static int number_of_connected_players;
     std::mutex connection_mutex;
     std::condition_variable connection_cv;
     std::mutex my_turn_mutex;
+    std::mutex write_mutex;
     std::condition_variable card_played_cv;
     struct sockaddr_storage client_address{};
-    int timeout;
+    uint32_t timeout;
     Round* current_round;
-
+    Trick* current_trick;
     void reading_thread();
 
 
 public:
 
-    explicit Player(Position pos, int timeout);
+    explicit Player(Position pos, uint32_t time);
     explicit Player(Position pos);
 
     [[nodiscard]] int get_timeout() const;
@@ -46,7 +46,6 @@ public:
     void set_socket_fd(int fd);
     void set_connected(bool c);
     void set_played_card(Card c);
-    void set_timeout(int t);
 
 
     void add_card(Card c);
@@ -56,22 +55,22 @@ public:
     [[nodiscard]] Card get_biggest_of_color(card_color_t c) const;
     [[nodiscard]] Card get_biggest_smaller_than(Card c) const;
 
-    void lock_connection();
-    void unlock_connection();
-    void lock_my_turn();
-    void unlock_my_turn();
+    std::unique_lock<std::mutex> get_connection_lock();
+    std::unique_lock<std::mutex> get_my_turn_lock();
+    std::unique_lock<std::mutex> get_write_lock();
 
     void start_reading_thread();
     void notify_connection();
-    static int no_of_connected_players();
-    static void add_connected_player();
-    void play_card(Trick& t);
-    void set_hand(std::set<Card> h);
+    int play_card();
+    void set_hand(const std::set<Card>& h);
     void add_points(int p);
     void print_hand();
     int send_deal();
+    int send_taken(Trick& t);
     [[nodiscard]] Round * get_current_round() const;
-
+    void set_current_round(Round *currentRound);
+    [[nodiscard]] int send_trick();
+    void set_current_trick(Trick *t);
 };
 
 

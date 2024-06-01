@@ -6,10 +6,18 @@
 
 #include <iostream>
 
+
+const std::unordered_map<int, char>  position_no_to_char = {{0, 'N'}, {1, 'E'}, {2, 'S'}, {3, 'W'}};
+const std::unordered_map<int, char>  char_to_position_no = {{'N', 0}, {'E', 1}, {'S', 2}, {'W', 3}};
+
 const std::unordered_map<card_color_t, char> color_to_char = {{card_color_t::C, 'C'}, {card_color_t::D, 'D'}, {card_color_t::H, 'H'}, {card_color_t::S, 'S'}};
 const std::unordered_map<char, card_color_t> char_to_color = {{'C', card_color_t::C}, {'D', card_color_t::D}, {'H', card_color_t::H}, {'S', card_color_t::S}};
 const std::unordered_map<card_value_t, std::string> value_to_string = {{card_value_t::TWO, "2"}, {card_value_t::THREE, "3"}, {card_value_t::FOUR, "4"}, {card_value_t::FIVE, "5"}, {card_value_t::SIX, "6"}, {card_value_t::SEVEN, "7"}, {card_value_t::EIGHT, "8"}, {card_value_t::NINE, "9"}, {card_value_t::TEN, "10"}, {card_value_t::J, "J"}, {card_value_t::Q, "Q"}, {card_value_t::K, "K"}, {card_value_t::A, "A"}};
 
+const std::unordered_map<Position, char> position_to_char = {{Position::N, 'N'}, {Position::E, 'E'}, {Position::S, 'S'}, {Position::W, 'W'}};
+const std::unordered_map<char, Position> char_to_position = {{'N', Position::N}, {'E', Position::E}, {'S', Position::S}, {'W', Position::W}};
+
+const std::unordered_map<int, int> max_points_per_round = {{1, 13}, {2, 13}, {3, 20}, {4, 16}, {5, 18}, {6, 20}, {7, 100}};
 
 Card::Card(card_color_t color, card_value_t value) : color(color), value(value) {}
 
@@ -17,8 +25,8 @@ Card::Card(int color, int value) : color(static_cast<card_color_t>(color)), valu
 
 bool Card::operator<(const Card &other) const {
     return static_cast<int>(color) < static_cast<int>(other.get_color())
-           || (static_cast<int>(color) == static_cast<int>(other.get_color())
-               && static_cast<int>(value) < other.num_value());
+           || (color == other.get_color()
+               && this->num_value() < other.num_value());
 }
 
 bool Card::operator==(const Card &other) const {
@@ -78,15 +86,15 @@ int Trick::get_leading_color() const {
 void Trick::add_card(Card c) {
     if (this->no_played_cards == 0) {
         this->leading_color = static_cast<int>(c.get_color());
+        this->taking_card = c;
     }
     this->played_cards.push_back(c);
     this->no_played_cards++;
-    if (c.get_color() == this->taking_card.get_color() && this->taking_card < c) {
-        //TODO find out why it is treated as unreachable
+    if (c.get_color() == this->taking_card.get_color() && this->taking_card< c) {
         this->taking_card = c;
         this->taking_player = this->current_player;
     }
-    //this->current_player = static_cast<Position>((static_cast<int>(this->current_player) + 1) % NO_OF_PLAYERS);
+    this->current_player = static_cast<Position>((static_cast<int>(this->current_player) + 1) % NO_OF_PLAYERS);
 }
 
 int Trick::evaluate_trick() {
@@ -286,4 +294,20 @@ void Card::print_card() const {
 
 std::string Round::get_starting_hand(Position pos) const {
     return this->starting_hands[static_cast<int>(pos)];
+}
+
+std::vector<Trick>& Round::get_played_tricks(){
+    return this->played_tricks;
+}
+
+std::vector<Card>& Trick::get_played_cards(){
+    return this->played_cards;
+}
+
+int Trick::get_trick_number() const {
+    return this->trick_number;
+}
+
+int Trick::get_round_type() const {
+    return this->round_type;
 }

@@ -6,8 +6,10 @@
 #define KIERKI_CARDS_H
 
 
+#include <unordered_map>
 #include "common.h"
 
+extern const std::unordered_map<int, int> max_points_per_round;
 
 
 enum class card_color_t {
@@ -35,6 +37,13 @@ enum class card_value_t {
     A,
 };
 
+extern const std::unordered_map<card_color_t, char> color_to_char;
+extern const std::unordered_map<char, card_color_t> char_to_color;
+extern const std::unordered_map<card_value_t, std::string> value_to_string;
+
+
+
+
 enum class Position {
     N,
     E,
@@ -42,7 +51,7 @@ enum class Position {
     W,
 };
 
-
+extern const std::unordered_map<char, Position> char_to_position;
 
 class Card {
     card_color_t color;
@@ -82,6 +91,9 @@ public:
     [[nodiscard]] int get_leading_color() const;
     void add_card(Card c);
     int evaluate_trick();
+    std::vector<Card>& get_played_cards();
+    [[nodiscard]] int get_trick_number() const;
+    [[nodiscard]] int get_round_type() const;
 };
 
 class Round {
@@ -101,11 +113,13 @@ public:
     [[nodiscard]] int get_dealt_points() const;
     void add_points(int p, Position pos);
     [[nodiscard]] std::string get_starting_hand(Position pos) const;
+    std::vector<Trick>& get_played_tricks();
 };
 
 Position get_start_pos_from_sett(std::string& s);
 
 std::set<Card> create_card_set_from_string(const std::string& s);
+
 
 
 #endif //KIERKI_CARDS_H

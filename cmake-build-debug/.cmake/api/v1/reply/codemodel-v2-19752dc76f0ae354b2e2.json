@@ -15,7 +15,8 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -30,7 +31,8 @@
 					"name" : "Kierki",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -38,8 +40,15 @@
 			[
 				{
 					"directoryIndex" : 0,
+					"id" : "kierki-klient::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-kierki-klient-Debug-2d5d6469efc89705d82c.json",
+					"name" : "kierki-klient",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "kierki-serwer::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-kierki-serwer-Debug-0efde8235b2675ee2475.json",
+					"jsonFile" : "target-kierki-serwer-Debug-9ffab363fea32feb8b60.json",
 					"name" : "kierki-serwer",
 					"projectIndex" : 0
 				}

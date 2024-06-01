@@ -50,30 +50,35 @@ cmake_ninja_workdir = /home/jan/CLionProjects/untitled4/cmake-build-debug/
 build cmake_object_order_depends_target_kierki-serwer: phony || CMakeFiles/kierki-serwer.dir
 
 build CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: CXX_COMPILER__kierki-serwer_unscanned_Debug /home/jan/CLionProjects/untitled4/kierki-serwer.cpp || cmake_object_order_depends_target_kierki-serwer
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_PROGRAM_OPTIONS_DYN_LINK
   DEP_FILE = CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/kierki-serwer.dir
   OBJECT_FILE_DIR = CMakeFiles/kierki-serwer.dir
 
 build CMakeFiles/kierki-serwer.dir/err.cpp.o: CXX_COMPILER__kierki-serwer_unscanned_Debug /home/jan/CLionProjects/untitled4/err.cpp || cmake_object_order_depends_target_kierki-serwer
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_PROGRAM_OPTIONS_DYN_LINK
   DEP_FILE = CMakeFiles/kierki-serwer.dir/err.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/kierki-serwer.dir
   OBJECT_FILE_DIR = CMakeFiles/kierki-serwer.dir
 
 build CMakeFiles/kierki-serwer.dir/common.cpp.o: CXX_COMPILER__kierki-serwer_unscanned_Debug /home/jan/CLionProjects/untitled4/common.cpp || cmake_object_order_depends_target_kierki-serwer
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_PROGRAM_OPTIONS_DYN_LINK
   DEP_FILE = CMakeFiles/kierki-serwer.dir/common.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/kierki-serwer.dir
   OBJECT_FILE_DIR = CMakeFiles/kierki-serwer.dir
 
 build CMakeFiles/kierki-serwer.dir/player.cpp.o: CXX_COMPILER__kierki-serwer_unscanned_Debug /home/jan/CLionProjects/untitled4/player.cpp || cmake_object_order_depends_target_kierki-serwer
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_PROGRAM_OPTIONS_DYN_LINK
   DEP_FILE = CMakeFiles/kierki-serwer.dir/player.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/kierki-serwer.dir
   OBJECT_FILE_DIR = CMakeFiles/kierki-serwer.dir
 
 build CMakeFiles/kierki-serwer.dir/cards.cpp.o: CXX_COMPILER__kierki-serwer_unscanned_Debug /home/jan/CLionProjects/untitled4/cards.cpp || cmake_object_order_depends_target_kierki-serwer
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_PROGRAM_OPTIONS_DYN_LINK
   DEP_FILE = CMakeFiles/kierki-serwer.dir/cards.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/kierki-serwer.dir
@@ -87,13 +92,75 @@ build CMakeFiles/kierki-serwer.dir/cards.cpp.o: CXX_COMPILER__kierki-serwer_unsc
 #############################################
 # Link the executable kierki-serwer
 
-build kierki-serwer: CXX_EXECUTABLE_LINKER__kierki-serwer_Debug CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o CMakeFiles/kierki-serwer.dir/err.cpp.o CMakeFiles/kierki-serwer.dir/common.cpp.o CMakeFiles/kierki-serwer.dir/player.cpp.o CMakeFiles/kierki-serwer.dir/cards.cpp.o
+build kierki-serwer: CXX_EXECUTABLE_LINKER__kierki-serwer_Debug CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o CMakeFiles/kierki-serwer.dir/err.cpp.o CMakeFiles/kierki-serwer.dir/common.cpp.o CMakeFiles/kierki-serwer.dir/player.cpp.o CMakeFiles/kierki-serwer.dir/cards.cpp.o | /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0
   FLAGS = -g
+  LINK_LIBRARIES = /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.74.0  /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0
   OBJECT_DIR = CMakeFiles/kierki-serwer.dir
   POST_BUILD = :
   PRE_LINK = :
   TARGET_FILE = kierki-serwer
   TARGET_PDB = kierki-serwer.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target kierki-klient
+
+
+#############################################
+# Order-only phony target for kierki-klient
+
+build cmake_object_order_depends_target_kierki-klient: phony || CMakeFiles/kierki-klient.dir
+
+build CMakeFiles/kierki-klient.dir/kierki-klient.cpp.o: CXX_COMPILER__kierki-klient_unscanned_Debug /home/jan/CLionProjects/untitled4/kierki-klient.cpp || cmake_object_order_depends_target_kierki-klient
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_PROGRAM_OPTIONS_DYN_LINK
+  DEP_FILE = CMakeFiles/kierki-klient.dir/kierki-klient.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/kierki-klient.dir
+  OBJECT_FILE_DIR = CMakeFiles/kierki-klient.dir
+
+build CMakeFiles/kierki-klient.dir/err.cpp.o: CXX_COMPILER__kierki-klient_unscanned_Debug /home/jan/CLionProjects/untitled4/err.cpp || cmake_object_order_depends_target_kierki-klient
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_PROGRAM_OPTIONS_DYN_LINK
+  DEP_FILE = CMakeFiles/kierki-klient.dir/err.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/kierki-klient.dir
+  OBJECT_FILE_DIR = CMakeFiles/kierki-klient.dir
+
+build CMakeFiles/kierki-klient.dir/common.cpp.o: CXX_COMPILER__kierki-klient_unscanned_Debug /home/jan/CLionProjects/untitled4/common.cpp || cmake_object_order_depends_target_kierki-klient
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_PROGRAM_OPTIONS_DYN_LINK
+  DEP_FILE = CMakeFiles/kierki-klient.dir/common.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/kierki-klient.dir
+  OBJECT_FILE_DIR = CMakeFiles/kierki-klient.dir
+
+build CMakeFiles/kierki-klient.dir/player.cpp.o: CXX_COMPILER__kierki-klient_unscanned_Debug /home/jan/CLionProjects/untitled4/player.cpp || cmake_object_order_depends_target_kierki-klient
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_PROGRAM_OPTIONS_DYN_LINK
+  DEP_FILE = CMakeFiles/kierki-klient.dir/player.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/kierki-klient.dir
+  OBJECT_FILE_DIR = CMakeFiles/kierki-klient.dir
+
+build CMakeFiles/kierki-klient.dir/cards.cpp.o: CXX_COMPILER__kierki-klient_unscanned_Debug /home/jan/CLionProjects/untitled4/cards.cpp || cmake_object_order_depends_target_kierki-klient
+  DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_PROGRAM_OPTIONS_DYN_LINK
+  DEP_FILE = CMakeFiles/kierki-klient.dir/cards.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/kierki-klient.dir
+  OBJECT_FILE_DIR = CMakeFiles/kierki-klient.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target kierki-klient
+
+
+#############################################
+# Link the executable kierki-klient
+
+build kierki-klient: CXX_EXECUTABLE_LINKER__kierki-klient_Debug CMakeFiles/kierki-klient.dir/kierki-klient.cpp.o CMakeFiles/kierki-klient.dir/err.cpp.o CMakeFiles/kierki-klient.dir/common.cpp.o CMakeFiles/kierki-klient.dir/player.cpp.o CMakeFiles/kierki-klient.dir/cards.cpp.o | /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0
+  FLAGS = -g
+  LINK_LIBRARIES = /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.74.0  /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0
+  OBJECT_DIR = CMakeFiles/kierki-klient.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = kierki-klient
+  TARGET_PDB = kierki-klient.dbg
 
 
 #############################################
@@ -129,7 +196,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /home/jan/CLionProjects/untitled4/cmake-build-debug
 
-build all: phony kierki-serwer
+build all: phony kierki-serwer kierki-klient
 
 # =============================================================================
 # Built-in targets
@@ -138,14 +205,14 @@ build all: phony kierki-serwer
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /home/jan/CLionProjects/untitled4/CMakeLists.txt /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.27.0/CMakeCCompiler.cmake CMakeFiles/3.27.0/CMakeCXXCompiler.cmake CMakeFiles/3.27.0/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | /home/jan/CLionProjects/untitled4/CMakeLists.txt /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindBoost.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfigVersion.cmake /usr/lib/x86_64-linux-gnu/cmake/BoostDetectToolset-1.74.0.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/boost_filesystem-config-version.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/boost_filesystem-config.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/libboost_filesystem-variant-shared.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/libboost_filesystem-variant-static.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.74.0/boost_headers-config-version.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.74.0/boost_headers-config.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/boost_program_options-config-version.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/boost_program_options-config.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/libboost_program_options-variant-shared.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/libboost_program_options-variant-static.cmake CMakeCache.txt CMakeFiles/3.27.0/CMakeCCompiler.cmake CMakeFiles/3.27.0/CMakeCXXCompiler.cmake CMakeFiles/3.27.0/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/jan/CLionProjects/untitled4/CMakeLists.txt /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.27.0/CMakeCCompiler.cmake CMakeFiles/3.27.0/CMakeCXXCompiler.cmake CMakeFiles/3.27.0/CMakeSystem.cmake: phony
+build /home/jan/CLionProjects/untitled4/CMakeLists.txt /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindBoost.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux.cmake /home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfigVersion.cmake /usr/lib/x86_64-linux-gnu/cmake/BoostDetectToolset-1.74.0.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/boost_filesystem-config-version.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/boost_filesystem-config.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/libboost_filesystem-variant-shared.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/libboost_filesystem-variant-static.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.74.0/boost_headers-config-version.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.74.0/boost_headers-config.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/boost_program_options-config-version.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/boost_program_options-config.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/libboost_program_options-variant-shared.cmake /usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/libboost_program_options-variant-static.cmake CMakeCache.txt CMakeFiles/3.27.0/CMakeCCompiler.cmake CMakeFiles/3.27.0/CMakeCXXCompiler.cmake CMakeFiles/3.27.0/CMakeSystem.cmake: phony
 
 
 #############################################

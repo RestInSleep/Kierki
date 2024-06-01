@@ -156,6 +156,8 @@ kierki-klient: CMakeFiles/kierki-klient.dir/common.cpp.o
 kierki-klient: CMakeFiles/kierki-klient.dir/player.cpp.o
 kierki-klient: CMakeFiles/kierki-klient.dir/cards.cpp.o
 kierki-klient: CMakeFiles/kierki-klient.dir/build.make
+kierki-klient: /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.74.0
+kierki-klient: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0
 kierki-klient: CMakeFiles/kierki-klient.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jan/CLionProjects/untitled4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable kierki-klient"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/kierki-klient.dir/link.txt --verbose=$(VERBOSE)

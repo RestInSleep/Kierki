@@ -901,7 +901,6 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: \
  /home/jan/CLionProjects/untitled4/err.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h \
  /home/jan/CLionProjects/untitled4/common.h /usr/include/c++/12/cinttypes \
- /usr/include/inttypes.h \
+ /usr/include/inttypes.h /home/jan/CLionProjects/untitled4/cards.h \
  /home/jan/CLionProjects/untitled4/kierki-serwer.h \
- /home/jan/CLionProjects/untitled4/player.h \
- /home/jan/CLionProjects/untitled4/cards.h
+ /home/jan/CLionProjects/untitled4/player.h

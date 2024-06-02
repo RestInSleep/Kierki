@@ -44,7 +44,7 @@ class ClientPlayer {
 
 public:
 
-    ClientPlayer(Position pos);
+    explicit ClientPlayer(Position pos);
     [[nodiscard]] Position get_pos() const;
     void print_hand();
     void remove_card(Card c);
@@ -71,7 +71,7 @@ class ClientTrick {
     std::vector<Card> played_cards;
 
 public:
-    ClientTrick(const std::vector<Card>& played_cards);
+    explicit ClientTrick(const std::vector<Card>& played_cards);
     void set_played_cards(const std::vector<Card>& c);
     void print_trick() const;
 

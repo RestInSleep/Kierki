@@ -5,3 +5,8 @@
 0	21	1717098412758518688	CMakeFiles/kierki-serwer.dir/err.cpp.o	f3032ce4c1c3531
 1	1705	1717182709389635691	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	c42b11dec1c2212c
 1	875	1717174849161806767	CMakeFiles/kierki-serwer.dir/cards.cpp.o	a66b8dd43777077d
+2	741	1717284873053255482	CMakeFiles/kierki-serwer.dir/player.cpp.o	11868e8dbf7ac6f9
+2	1119	1717284873429266635	CMakeFiles/kierki-serwer.dir/cards.cpp.o	a66b8dd43777077d
+1	1768	1717284874077285856	CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o	c42b11dec1c2212c
+2	1878	1717284874185289059	CMakeFiles/kierki-serwer.dir/common.cpp.o	1f21acd95391eb42
+1878	1967	1717284874277291788	kierki-serwer	9828a61b71e95fd9

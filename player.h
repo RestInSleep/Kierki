@@ -8,6 +8,9 @@
 #include "common.h"
 #include "cards.h"
 
+
+#define MAX_MESSAGE_SIZE 128
+
 extern std::mutex g_number_of_players_mutex;
 
 class Player {

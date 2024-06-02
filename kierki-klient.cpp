@@ -12,6 +12,8 @@
 #include "common.h"
 #include "player.h"
 
+
+//TODO: sending trick :)
 namespace po = boost::program_options;
 
 Client_Options::Client_Options() {
@@ -66,8 +68,20 @@ uint16_t Client_Options::get_ip_version() const {
 ClientPlayer::ClientPlayer(Position pos) {
     position = pos;
     current_round_type = 0;
+    play_now = false;
 }
 
+Position ClientPlayer::get_pos() const {
+    return position;
+}
+
+std::set<Card> ClientPlayer::get_hand() const {
+    return hand;
+}
+
+int ClientPlayer::get_current_round_type() const {
+    return current_round_type;
+}
 
 void print_card_set(const std::set<Card>& s) {
     if (s.empty()) {
@@ -134,12 +148,31 @@ Card ClientPlayer::get_biggest_of_color(card_color_t c) const {
     return biggest;
 }
 
+Card ClientPlayer::get_biggest_smaller_than(Card c) const {
+    Card biggest(c.get_color(), card_value_t::TWO);
+    for (const auto &card: hand) {
+
+        // Cards are sorted on the  hand, so we know that
+        // if we find a card with the same color as c and
+        // smaller value than c, it is the biggest card
+        // smaller than c by now
+        if (card.get_color() == c.get_color() && card < c) {
+            biggest = card;
+        }
+    }
+    return biggest;
+}
+
 void ClientTrick::print_trick() const {
     print_card_vector(played_cards);
 }
 
 void ClientTrick::set_played_cards(const std::vector<Card>& c) {
     played_cards = c;
+}
+
+ClientTrick::ClientTrick(const std::vector<Card>& played_cards) {
+    this->played_cards = played_cards;
 }
 
 
@@ -211,7 +244,6 @@ int get_options(Client_Options& options ,int argc, char* argv[]) {
         std::string hostname = vm["hostname"].as<std::string>();
         int port = vm["port"].as<int>();
         bool automatic = vm.count("-a") > 0;
-        std::cout << "automatic: " << automatic << "\n";
 
         options.set_ip_version(ip);
         options.set_hostname(hostname);
@@ -272,8 +304,13 @@ int connect_to_server(const Client_Options& options) {
 void print_busy_places(const std::string& message) {
     std::cout << "Place busy, list of busy places received: ";
     int i = 4;
-    while (message[i] != '\r') {
-        std::cout << message[i++];
+    auto message_length = message.size();
+    while (i < message_length) {
+        std::cout << message[i];
+        if (i != message_length - 1) {
+            std::cout << ", ";
+        }
+        i++;
     }
     std::cout << ".\n";
 }
@@ -292,7 +329,7 @@ std::unique_lock<std::mutex> ClientPlayer::get_cards_lock() {
 
 
 void print_deal_message(ClientPlayer& player, char starting_player) {
-    std::cout << "New deal << " << player.get_current_round_type() << ": staring place " << starting_player << ", cards ";
+    std::cout << "New deal " << player.get_current_round_type() << ": staring place " << starting_player << ", cards ";
     player.print_hand();
     std::cout << ".\n";
 
@@ -344,8 +381,14 @@ int process_message(const std::string& message, ClientPlayer& player) {
         }
         player.set_play_now(false);
     }
-    else if (message.starts_with("SCORE")) {
+    else if (message.starts_with("SCORE") || message.starts_with("TOTAL")) {
         std::string score_message = message.substr(5);
+        if (message.starts_with("TOTAL")) {
+            std::cout << "The scores are:\n ";
+        }
+        else {
+            std::cout << "The total scores are:\n ";
+        }
         std::string positions =  "NESW";
         for (char pos : positions) {
             auto p = score_message.find(pos);
@@ -354,15 +397,24 @@ int process_message(const std::string& message, ClientPlayer& player) {
                 if (score_message[n_end] >= '0' && score_message[n_end] <= '9') {
                     n_end++;
                 } else {
-
-
+                    std::cout << pos << " | " << score_message.substr(p, n_end - p) << "\n";
                 }
 
             }
         }
     }
+    else if (message.starts_with("TRICK")) {
+        std::cout << "Trick: (" << message.substr(5) << ") ";
 
-
+        std::vector<Card> cards = create_card_vector_from_string(message.substr(6));
+        print_card_vector(cards);
+        std::cout << "\n";
+        std::cout << "Available: ";
+        std::unique_lock<std::mutex> lock = player.get_cards_lock();
+        player.print_hand();
+        std::cout << "\n";
+        player.set_play_now(true);
+    }
 }
 
 
@@ -393,14 +445,15 @@ int receive_messages(int sock, ClientPlayer& player) {
             std::cerr << "Connection closed by peer" << std::endl;
             return -1;
         }
+        std::cout << "Bytes read: " << bytes_read << std::endl;
 
         data.append(buffer.data(), bytes_read);
 
         size_t pos;
         while ((pos = data.find("\r\n")) != std::string::npos) {
             std::string message = data.substr(0, pos);
+            data.erase(0, pos + 2);
             std::cout << "Received: " << message << std::endl;
-            data.erase(0, pos + 2); // Erase the processed message and the delimiter
             process_message(message, player);
             // other thread should not alert main thread about losing connection - main will sooner or later also
             // receive the message about losing connection, and we don't want to lose information about messages

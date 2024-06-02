@@ -19,10 +19,6 @@
 #include "common.h"
 
 
-constexpr std::string_view value_regex_string = "(10|[23456789JQKA])";
-const std::string_view color_regex_string = "[CDHS]";
-const std::string_view trick_number_regex_string = "[0123456789(10)(11)(12)(13)]";
-const std::string_view card_regex_string = "(10|[0123456789JQKA])[CDHS]";
 
 
 

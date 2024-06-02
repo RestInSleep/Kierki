@@ -13,6 +13,7 @@ const std::unordered_map<int, char>  char_to_position_no = {{'N', 0}, {'E', 1}, 
 const std::unordered_map<card_color_t, char> color_to_char = {{card_color_t::C, 'C'}, {card_color_t::D, 'D'}, {card_color_t::H, 'H'}, {card_color_t::S, 'S'}};
 const std::unordered_map<char, card_color_t> char_to_color = {{'C', card_color_t::C}, {'D', card_color_t::D}, {'H', card_color_t::H}, {'S', card_color_t::S}};
 const std::unordered_map<card_value_t, std::string> value_to_string = {{card_value_t::TWO, "2"}, {card_value_t::THREE, "3"}, {card_value_t::FOUR, "4"}, {card_value_t::FIVE, "5"}, {card_value_t::SIX, "6"}, {card_value_t::SEVEN, "7"}, {card_value_t::EIGHT, "8"}, {card_value_t::NINE, "9"}, {card_value_t::TEN, "10"}, {card_value_t::J, "J"}, {card_value_t::Q, "Q"}, {card_value_t::K, "K"}, {card_value_t::A, "A"}};
+const std::unordered_map<std::string, card_value_t> string_to_value = {{"2", card_value_t::TWO}, {"3", card_value_t::THREE}, {"4", card_value_t::FOUR}, {"5", card_value_t::FIVE}, {"6", card_value_t::SIX}, {"7", card_value_t::SEVEN}, {"8", card_value_t::EIGHT}, {"9", card_value_t::NINE}, {"10", card_value_t::TEN}, {"J", card_value_t::J}, {"Q", card_value_t::Q}, {"K", card_value_t::K}, {"A", card_value_t::A}};
 
 const std::unordered_map<Position, char> position_to_char = {{Position::N, 'N'}, {Position::E, 'E'}, {Position::S, 'S'}, {Position::W, 'W'}};
 const std::unordered_map<char, Position> char_to_position = {{'N', Position::N}, {'E', Position::E}, {'S', Position::S}, {'W', Position::W}};
@@ -52,7 +53,7 @@ Trick::Trick(Position starting_player, int trick_number, int round_type) : takin
     this->starting_player = starting_player;
     this->current_player = starting_player;
     this->no_played_cards = 0;
-    this->leading_color = 0;
+    this->leading_color = card_color_t::NONE;
     this->played_cards = std::vector<Card>();
     this->taking_player = starting_player;
     this->trick_number = trick_number;
@@ -79,13 +80,13 @@ Card Trick::get_taking_card() const {
     return this->taking_card;
 }
 
-int Trick::get_leading_color() const {
+card_color_t Trick::get_leading_color() const {
     return this->leading_color;
 }
 
 void Trick::add_card(Card c) {
     if (this->no_played_cards == 0) {
-        this->leading_color = static_cast<int>(c.get_color());
+        this->leading_color = c.get_color();
         this->taking_card = c;
     }
     this->played_cards.push_back(c);
@@ -150,10 +151,9 @@ int Trick::evaluate_trick() {
             }
             [[fallthrough]];
         case 6:
-            for (const auto &card: this->played_cards) {
                 if (this->trick_number == 7 || this->trick_number == 13) {
                     result += 10;
-                }
+
             }
             if (this->round_type == 6) {
                 break;
@@ -384,7 +384,7 @@ std::vector<Card> create_card_vector_from_string(const std::string& s) {
                 color = card_color_t::NONE;
         }
         i++;
-        cards.push_back(Card(color, value));
+        cards.emplace_back(color, value);
     }
     return cards;
 }

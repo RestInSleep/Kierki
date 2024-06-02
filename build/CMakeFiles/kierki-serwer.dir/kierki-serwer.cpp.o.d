@@ -902,5 +902,20 @@ CMakeFiles/kierki-serwer.dir/kierki-serwer.cpp.o: \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdnoreturn.h \
  /home/jan/CLionProjects/untitled4/common.h /usr/include/c++/12/cinttypes \
  /usr/include/inttypes.h /home/jan/CLionProjects/untitled4/cards.h \
+ /usr/include/c++/12/regex /usr/include/c++/12/bitset \
+ /usr/include/c++/12/stack /usr/include/c++/12/deque \
+ /usr/include/c++/12/bits/stl_deque.h /usr/include/c++/12/bits/deque.tcc \
+ /usr/include/c++/12/bits/stl_stack.h \
+ /usr/include/c++/12/bits/regex_constants.h \
+ /usr/include/c++/12/bits/regex_error.h \
+ /usr/include/c++/12/bits/regex_automaton.h \
+ /usr/include/c++/12/bits/regex_automaton.tcc \
+ /usr/include/c++/12/bits/regex_scanner.h \
+ /usr/include/c++/12/bits/regex_scanner.tcc \
+ /usr/include/c++/12/bits/regex_compiler.h \
+ /usr/include/c++/12/bits/regex_compiler.tcc \
+ /usr/include/c++/12/bits/regex.h /usr/include/c++/12/bits/regex.tcc \
+ /usr/include/c++/12/bits/regex_executor.h \
+ /usr/include/c++/12/bits/regex_executor.tcc \
  /home/jan/CLionProjects/untitled4/kierki-serwer.h \
  /home/jan/CLionProjects/untitled4/player.h

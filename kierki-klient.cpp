@@ -13,7 +13,6 @@
 #include "player.h"
 
 
-//TODO: sending trick :)
 namespace po = boost::program_options;
 
 Client_Options::Client_Options() {
@@ -65,10 +64,21 @@ uint16_t Client_Options::get_ip_version() const {
 }
 
 
-ClientPlayer::ClientPlayer(Position pos) {
+int ClientPlayer::get_game_may_be_over() const {
+    return game_may_be_over;
+}
+
+void ClientPlayer::set_game_may_be_over(int g) {
+    game_may_be_over = g;
+}
+
+
+ClientPlayer::ClientPlayer(Position pos) : last_played_card(card_color_t::NONE, card_value_t::NONE){
     position = pos;
     current_round_type = 0;
     play_now = false;
+    current_trick_number = 0;
+    game_may_be_over = 0;
 }
 
 Position ClientPlayer::get_pos() const {
@@ -77,6 +87,14 @@ Position ClientPlayer::get_pos() const {
 
 std::set<Card> ClientPlayer::get_hand() const {
     return hand;
+}
+
+void ClientPlayer::set_current_trick_number(int n) {
+    current_trick_number = n;
+}
+
+int ClientPlayer::get_current_trick_number() const {
+    return current_trick_number;
 }
 
 int ClientPlayer::get_current_round_type() const {
@@ -96,8 +114,6 @@ void print_card_set(const std::set<Card>& s) {
         }
     }
 }
-
-
 
 
 void print_card_vector(const std::vector<Card>& v) {
@@ -191,6 +207,65 @@ void ClientPlayer::add_trick(const ClientTrick& t) {
 void ClientPlayer::clean_tricks() {
     taken_tricks.clear();
 }
+
+void ClientPlayer::set_last_played_card(Card c) {
+    last_played_card = c;
+}
+
+
+void ClientPlayer::client_commands_thread(int sock) {
+   std::cout << "Client commands thread started\n";
+    std::string command;
+    std::stringstream ss;
+    ss << "!";
+    ss << card_regex_string;
+    std::string card_command_regex_str  = ss.str();
+    while (true) {
+        std::cin >> command;
+        std::cout << "Command: " << command << "\n";
+        if (command == "cards") {
+            std::unique_lock<std::mutex> lock(cards_mutex);
+            print_hand();
+            std::cout << "\n";
+        }
+        if (command == "tricks") {
+            std::unique_lock<std::mutex> lock(cards_mutex);
+            for (const auto& trick : taken_tricks) {
+                trick.print_trick();
+                std::cout << "\n";
+            }
+        }
+        if (std::regex_match(command, std::regex(card_command_regex_str))) {
+            std::unique_lock<std::mutex> lock(cards_mutex);
+            std::string card_str = command.substr(1);
+            std::cout << "Card string: " << card_str << "\n";
+            Card card = create_card_vector_from_string(card_str)[0];
+            std::cout << "Card: " << value_to_string.at(card.get_value()) << color_to_char.at(card.get_color()) << "\n";
+            if (has_card(card)) {
+                set_last_played_card(card);
+                std::stringstream ss2;
+                ss2 << "TRICK";
+                ss2 << current_trick_number;
+                ss2 << value_to_string.at(card.get_value());
+                ss2 << color_to_char.at(card.get_color());
+                ss2 << "\r\n";
+                std::cout << "Sending: " << ss2.str() << "\n";
+                std::string message = ss2.str();
+                ssize_t bytes_sent = writen(sock, message.c_str(), message.size());
+                std::cout << "Bytes sent: " << bytes_sent << std::endl;
+                if (bytes_sent < message.size()) {
+                    std::cerr << "Error writing to socket\n";
+                    return;
+                }
+            } else {
+                std::cerr << "You don't have this card.\n";
+            }
+        }
+    }
+}
+
+
+
 
 
 
@@ -327,6 +402,11 @@ std::unique_lock<std::mutex> ClientPlayer::get_cards_lock() {
     return std::unique_lock(cards_mutex);
 }
 
+Card ClientPlayer::get_last_played_card() const {
+    return last_played_card;
+}
+
+
 
 void print_deal_message(ClientPlayer& player, char starting_player) {
     std::cout << "New deal " << player.get_current_round_type() << ": staring place " << starting_player << ", cards ";
@@ -337,11 +417,13 @@ void print_deal_message(ClientPlayer& player, char starting_player) {
 
 
 // returns 1 if server can disconnect in the next read, 0 otherwise
-int process_message(const std::string& message, ClientPlayer& player) {
+void process_message(const std::string& message, ClientPlayer& player) {
     if (message.starts_with("BUSY")) {
+        player.set_game_may_be_over(0);
         print_busy_places(message);
     }
     else if (message.starts_with("DEAL")) {
+        player.set_game_may_be_over(0);
         int round_type = message[4] - '0';
         char starting_player = message[5];
         std::string hand_str = message.substr(6);
@@ -356,6 +438,7 @@ int process_message(const std::string& message, ClientPlayer& player) {
 
     }
     else if (message.starts_with("WRONG")) {
+        player.set_game_may_be_over(0);
         std::string wrong_str = message;
         wrong_str = wrong_str.substr(5);
         std::cout << "Wrong message received in trick " << wrong_str << ".\n";
@@ -363,18 +446,22 @@ int process_message(const std::string& message, ClientPlayer& player) {
         player.set_play_now(false);
     }
     else if (message.starts_with("TAKEN")) {
-        std::string taken_message = message.substr(5);
-        std::string trick_number = taken_message[0] == '1' ? taken_message.substr(0, 2) : taken_message.substr(0, 1);
-        size_t trick_number_length = trick_number.size();
-        taken_message.erase(0, trick_number_length);
+        player.set_game_may_be_over(0);
+        std::string taken_message = message; //TODO - WRONG
+        std::smatch match;
+        std::regex_search(taken_message, match, std::regex(taken_regex_string));
+        std::string taken_number = match[1];
+        taken_message.erase(0, 5); // TAKEN
+        taken_message.erase(0, taken_number.size());
         size_t length = taken_message.size();
         char position = taken_message[length - 1];
         std::string cards_str = taken_message.substr(0, length - 1);
         std::vector<Card> cards = create_card_vector_from_string(cards_str);
-        std::cout << "A trick " << trick_number << " is taken by " << position << " with cards ";
+        std::cout << "A trick " << taken_number << " is taken by " << position << ", cards ";
         print_card_vector(cards);
         std::cout << ".\n";
         std::unique_lock<std::mutex> lock = player.get_cards_lock();
+        player.remove_card(player.get_last_played_card());
         if (char_to_position.at(position) == player.get_pos()) { // we took the trick
             ClientTrick trick(cards);
             player.add_trick(trick);
@@ -383,6 +470,7 @@ int process_message(const std::string& message, ClientPlayer& player) {
     }
     else if (message.starts_with("SCORE") || message.starts_with("TOTAL")) {
         std::string score_message = message.substr(5);
+        player.set_game_may_be_over(player.get_game_may_be_over() + 1);
         if (message.starts_with("TOTAL")) {
             std::cout << "The scores are:\n ";
         }
@@ -404,16 +492,25 @@ int process_message(const std::string& message, ClientPlayer& player) {
         }
     }
     else if (message.starts_with("TRICK")) {
-        std::cout << "Trick: (" << message.substr(5) << ") ";
-
-        std::vector<Card> cards = create_card_vector_from_string(message.substr(6));
+       std::smatch match;
+       std::regex_match(message, match, std::regex(trick_regex_string));
+       std::string trick_number = match[1];
+       std::cout << "Trick : (" << trick_number << ") ";
+        player.set_game_may_be_over(0);
+        std::string trick_message = message;
+        trick_message = trick_message.substr(5 + trick_number.size());
+        std::vector<Card> cards = create_card_vector_from_string(trick_message);
         print_card_vector(cards);
         std::cout << "\n";
         std::cout << "Available: ";
         std::unique_lock<std::mutex> lock = player.get_cards_lock();
         player.print_hand();
         std::cout << "\n";
+        player.set_current_trick_number(std::stoi(trick_number));
         player.set_play_now(true);
+    }
+    else {
+        std::cerr << "Unknown message received: " << message << "\n";
     }
 }
 
@@ -443,6 +540,9 @@ int receive_messages(int sock, ClientPlayer& player) {
             return -1;
         } else if (bytes_read == 0) {
             std::cerr << "Connection closed by peer" << std::endl;
+            if (player.get_game_may_be_over() >= 2) {
+                return 0;
+            }
             return -1;
         }
         std::cout << "Bytes read: " << bytes_read << std::endl;
@@ -461,6 +561,9 @@ int receive_messages(int sock, ClientPlayer& player) {
     }
 }
 
+void ClientPlayer::start_client_commands_thread(int sock) {
+    std::thread(&ClientPlayer::client_commands_thread, this, sock).detach();
+}
 
 
 
@@ -480,7 +583,9 @@ int play_manual(const Client_Options& options) {
     if (send_IAM(sock, options.get_position()) == -1) {
         return 1;
     }
+    player.start_client_commands_thread(sock);
     receive_messages(sock, player);
+
 
     return 0;
 }

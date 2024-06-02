@@ -41,6 +41,10 @@ class ClientPlayer {
     std::mutex cards_mutex;
     int current_round_type;
     bool play_now;
+    int current_trick_number;
+    int game_may_be_over;
+    void client_commands_thread(int sock);
+    Card last_played_card;
 
 public:
 
@@ -61,6 +65,13 @@ public:
     [[nodiscard]] bool get_play_now() const;
     void add_trick(const ClientTrick& t);
     void clean_tricks();
+    void set_current_trick_number(int n);
+    [[nodiscard]] int get_current_trick_number() const;
+    void set_game_may_be_over(int g);
+    [[nodiscard]] int get_game_may_be_over() const;
+    void start_client_commands_thread(int sock);
+    void set_last_played_card(Card c);
+    [[nodiscard]] Card get_last_played_card() const;
 };
 
 void print_card_set(const std::set<Card>& s);

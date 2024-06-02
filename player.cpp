@@ -45,7 +45,6 @@ Player::Player(Position pos) : position(pos), played_card(card_color_t::NONE, ca
 
 
 bool trick_message_is_correct(const std::string &s, std::smatch &match) {
-    std::stringstream ss;
     std::regex trick_regex(trick_regex_string);
     return std::regex_match(s, match, trick_regex);
 }
@@ -68,7 +67,6 @@ void Player::reading_thread() {
                 // now we are connected again
             }
         }
-
         ssize_t bytes_read = read(this->socket_fd, buffer.data(), buffer.size());
         if (bytes_read < 0) {
             syserr("read");
@@ -79,6 +77,7 @@ void Player::reading_thread() {
             this->connected = false;
             continue;
         }
+        std::cout << "Read " << bytes_read << " bytes" << std::endl;
 
         data.append(buffer.data(), bytes_read);
 
@@ -87,31 +86,34 @@ void Player::reading_thread() {
             if (data.length() > MAX_MESSAGE_SIZE) {
                 //TODO - add to log queue - remember to curtail the message to 128 max
                 data = "";
+                close(this->socket_fd);
                 this->connected = false;
                 continue;
             }
-            data.erase(0, pos + 2);
             std::string message = data.substr(0, pos);
+            data.erase(0, pos + 2);
             std::smatch match;
+            std::cout << "Received message: " << message << std::endl;
             // client sent correct trick message
             if (trick_message_is_correct(message, match)) {
 
                 int trick_number = std::stoi(match[1].str());
                 std::cout << "Trick number: " << trick_number << std::endl;
-                card_value_t value = string_to_value.at(match[2].str());
+                card_value_t value = string_to_value.at(match[4].str());
                 std::cout << "Value: " << static_cast<int>(value) << std::endl;
-                card_color_t color = char_to_color.at(match[3].str()[0]);
+                card_color_t color = char_to_color.at(match[5].str()[0]);
                 std::cout << "Color: " << static_cast<int>(color) << std::endl;
                 Card c(color, value);
 
                 std::unique_lock<std::mutex> turn_lock(this->my_turn_mutex);
+                std::cout <<"My turn: " << this->my_turn << std::endl;
 
-                if (!this->my_turn && !this->has_card(c) ||
+                if (!this->my_turn || !this->has_card(c) ||
                     (this->current_trick->get_leading_color() != card_color_t::NONE &&
                      c.get_color() != this->current_trick->get_leading_color() &&
                      this->has_card_of_color(this->current_trick->get_leading_color()))) {
                     // player has to follow the leading color
-                    std::unique_lock<std::mutex> lock_write(this->write_mutex);
+                    std::unique_lock<std::mutex> lock_write(this->write_mutex); //tutaj zawieszamy sie
                     std::stringstream ss_wrong;
                     ss_wrong << "WRONG";
                     ss_wrong << this->current_trick->get_trick_number();
@@ -122,19 +124,24 @@ void Player::reading_thread() {
                     if (managed_to_write < length) {
                         std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
                         data = "";
+                        close(this->socket_fd);
                         this->connected = false;
                         continue;
                     }
                     continue;
                 }
+                std::cout << "Correct trick message" << std::endl;
                 // can play the card
                 this->played_card = c;
                 this->card_played = true;
                 this->my_turn = false;
+                turn_lock.unlock();
                 this->card_played_cv.notify_all();
             } else {
                 // did not receive a correct trick message - we disconnect
+
                 std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
+                close(this->socket_fd);
                 data = "";
                 this->connected = false;
             }
@@ -228,7 +235,7 @@ int Player::send_trick() {
     auto length = static_cast<ssize_t>(s.size());
     if (writen(this->socket_fd, s.c_str(), length) < length) {
         std::cout << "Connection closed" << std::endl;
-        std::unique_lock<std::mutex> lock_conn(this->connection_mutex); //TODO - blocking here
+        std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
         std::cout << "Connection closed" << std::endl;
         this->connected = false;
         return -1;
@@ -240,13 +247,15 @@ int Player::send_trick() {
 // returns 0 if card was played, -1 if connection was closed or we need to ping
 int Player::play_card() {
 
+    std::cout << "Playing card" << std::endl;
     std::unique_lock<std::mutex> lock_turn(this->my_turn_mutex);
     my_turn = true;
-
-    std::unique_lock<std::mutex> lock_write(this->write_mutex);
-    if (this->send_trick() < 0) {
-        std::cerr << "Connection closed2" << std::endl;
-        return -1;
+    {
+        std::unique_lock<std::mutex> lock_write(this->write_mutex);
+        if (this->send_trick() < 0) {
+            std::cerr << "Connection closed2" << std::endl;
+            return -1;
+        }
     }
     // now, since my_turn is set, reading thread may have already received
     // a proper card and set card_played to true
@@ -257,6 +266,7 @@ int Player::play_card() {
         this->card_played_cv.wait_for(lock_turn, std::chrono::seconds(this->timeout),
                                       [this] { return this->card_played; });
     }
+
     if (!this->card_played) {
         return -1;
     }
@@ -265,6 +275,8 @@ int Player::play_card() {
     this->remove_card(this->played_card);
     this->card_played = false;
     this->my_turn = false;
+    lock_turn.unlock();
+    card_played_cv.notify_all();
     return 0;
 }
 
@@ -278,6 +290,7 @@ void Player::set_played_card(Card c) {
 
 void Player::set_hand(const std::set<Card> &h) {
     this->hand = h;
+    this->no_of_cards = static_cast<int>(h.size());
 }
 
 bool Player::is_connected() const {
@@ -374,6 +387,7 @@ int Player::send_taken(Trick &t) {
         ss << color_to_char.at(c.get_color());
     }
     ss << position_no_to_char.at(static_cast<int>(t.get_taking_player()));
+    ss << "\r\n";
     std::string s = ss.str();
     size_t length = s.size();
     ssize_t result = writen(this->socket_fd, s.c_str(), length);

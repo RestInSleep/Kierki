@@ -16,7 +16,9 @@ const std::string_view color_regex_string = "[CDHS]";
 const std::string_view trick_number_regex_string = "[123456789(10)(11)(12)(13)]";
 const std::string_view card_regex_string = "(10|[23456789JQKA])[CDHS]";
 
-const std::string trick_regex_string = "TRICK([0123456789(10)(11)(12)(13)])(10|[23456789JQKA])([CDHS])\r\n";
+const std::string trick_regex_string = "TRICK((1[0-3])|[123456789])((10|[23456789JQKA])([CDHS])){0,3}";
+
+const std::string taken_regex_string = "TAKEN((1[0-3])|[123456789])((10|[23456789JQKA])([CDHS])){4}([NESW])";
 
 extern const std::unordered_map<int, int> max_points_per_round;
 

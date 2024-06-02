@@ -12,7 +12,7 @@ const std::unordered_map<int, char>  char_to_position_no = {{'N', 0}, {'E', 1}, 
 
 const std::unordered_map<card_color_t, char> color_to_char = {{card_color_t::C, 'C'}, {card_color_t::D, 'D'}, {card_color_t::H, 'H'}, {card_color_t::S, 'S'}};
 const std::unordered_map<char, card_color_t> char_to_color = {{'C', card_color_t::C}, {'D', card_color_t::D}, {'H', card_color_t::H}, {'S', card_color_t::S}};
-const std::unordered_map<card_value_t, std::string> value_to_string = {{card_value_t::TWO, "2"}, {card_value_t::THREE, "3"}, {card_value_t::FOUR, "4"}, {card_value_t::FIVE, "5"}, {card_value_t::SIX, "6"}, {card_value_t::SEVEN, "7"}, {card_value_t::EIGHT, "8"}, {card_value_t::NINE, "9"}, {card_value_t::TEN, "10"}, {card_value_t::J, "J"}, {card_value_t::Q, "Q"}, {card_value_t::K, "K"}, {card_value_t::A, "A"}};
+const std::unordered_map<card_value_t, std::string> value_to_string = {{card_value_t::NONE, "NONE"},{card_value_t::TWO, "2"}, {card_value_t::THREE, "3"}, {card_value_t::FOUR, "4"}, {card_value_t::FIVE, "5"}, {card_value_t::SIX, "6"}, {card_value_t::SEVEN, "7"}, {card_value_t::EIGHT, "8"}, {card_value_t::NINE, "9"}, {card_value_t::TEN, "10"}, {card_value_t::J, "J"}, {card_value_t::Q, "Q"}, {card_value_t::K, "K"}, {card_value_t::A, "A"}};
 const std::unordered_map<std::string, card_value_t> string_to_value = {{"2", card_value_t::TWO}, {"3", card_value_t::THREE}, {"4", card_value_t::FOUR}, {"5", card_value_t::FIVE}, {"6", card_value_t::SIX}, {"7", card_value_t::SEVEN}, {"8", card_value_t::EIGHT}, {"9", card_value_t::NINE}, {"10", card_value_t::TEN}, {"J", card_value_t::J}, {"Q", card_value_t::Q}, {"K", card_value_t::K}, {"A", card_value_t::A}};
 
 const std::unordered_map<Position, char> position_to_char = {{Position::N, 'N'}, {Position::E, 'E'}, {Position::S, 'S'}, {Position::W, 'W'}};
@@ -88,12 +88,15 @@ void Trick::add_card(Card c) {
     if (this->no_played_cards == 0) {
         this->leading_color = c.get_color();
         this->taking_card = c;
+        this->taking_player = this->current_player;
     }
     this->played_cards.push_back(c);
     this->no_played_cards++;
-    if (c.get_color() == this->taking_card.get_color() && this->taking_card< c) {
+    if (c.get_color() == this->taking_card.get_color() && this->taking_card < c) {
         this->taking_card = c;
         this->taking_player = this->current_player;
+        this->leading_color = c.get_color();
+
     }
     this->current_player = static_cast<Position>((static_cast<int>(this->current_player) + 1) % NO_OF_PLAYERS);
 }
@@ -388,3 +391,4 @@ std::vector<Card> create_card_vector_from_string(const std::string& s) {
     }
     return cards;
 }
+

@@ -72,11 +72,11 @@ void Options::set_timeout(uint32_t t) {
 // This function is called by the main thread.
 // It waits until all players have connected.
 void wait_for_all_players(Player *players) {
-    std::cout << "Waiting for all players to connect" << std::endl;
     std::unique_lock<std::mutex> lock(g_number_of_players_mutex);
     if (all_players_connected(players)) {
         return;
     }
+    std::cout << "Waiting for all players to connect" << std::endl;
     g_all_players.wait(lock, [&players] { return all_players_connected(players); });
 }
 
@@ -331,6 +331,7 @@ void deal_cards(Player *players, std::string *starting_hands) {
             }
         }
         players[i].set_hand(create_card_set_from_string(starting_hands[i]));
+
     }
 }
 
@@ -387,7 +388,7 @@ void game(const Options &options, int new_connections_fd) {
             for (int i = 0; i < NO_OF_PLAYERS; i++) {
                 while (true) {
                     wait_for_all_players(players); // it does not block if all players are already connected
-                    int result = players[static_cast<int>(trick_starting_player) + i % NO_OF_PLAYERS].play_card();
+                    int result = players[(static_cast<int>(trick_starting_player) + i) % NO_OF_PLAYERS].play_card();
                     if (result == 0) {
                         break;
                     } // play_card already set the is_connected of the player to false if result == -1

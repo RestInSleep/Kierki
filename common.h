@@ -20,6 +20,7 @@
 #define QUEUE_LENGTH 5
 #define NO_OF_PLAYERS 4
 #define MAX_HAND_SIZE 13
+#define MAX_MESSAGE_SIZE 128
 
 
 extern const std::unordered_map<int, char>  position_no_to_char;
@@ -49,6 +50,15 @@ bool cmd_option_exists(char** begin, char** end, const std::string& option);
 bool conditional_cmd_option_exists(char** begin, char** end, const std::function<bool(const std::string&)> &condition);
 
 std::string conditional_get_cmd_option(char ** begin, char ** end, const std::function<bool(const std::string&)> &condition);
+
+class ReportPrinter {
+    std::mutex report_mutex;
+    std::vector<std::string> messages;
+    std::condition_variable not_empty;
+public:
+    void printing_thread();
+    void add_message(const std::string& message);
+};
 
 
 

@@ -222,7 +222,6 @@ void ClientPlayer::client_commands_thread(int sock) {
     std::string card_command_regex_str  = ss.str();
     while (true) {
         std::cin >> command;
-        std::cout << "Command: " << command << "\n";
         if (command == "cards") {
             std::unique_lock<std::mutex> lock(cards_mutex);
             print_hand();
@@ -238,9 +237,7 @@ void ClientPlayer::client_commands_thread(int sock) {
         if (std::regex_match(command, std::regex(card_command_regex_str))) {
             std::unique_lock<std::mutex> lock(cards_mutex);
             std::string card_str = command.substr(1);
-            std::cout << "Card string: " << card_str << "\n";
             Card card = create_card_vector_from_string(card_str)[0];
-            std::cout << "Card: " << value_to_string.at(card.get_value()) << color_to_char.at(card.get_color()) << "\n";
             if (has_card(card)) {
                 set_last_played_card(card);
                 std::stringstream ss2;
@@ -249,10 +246,8 @@ void ClientPlayer::client_commands_thread(int sock) {
                 ss2 << value_to_string.at(card.get_value());
                 ss2 << color_to_char.at(card.get_color());
                 ss2 << "\r\n";
-                std::cout << "Sending: " << ss2.str() << "\n";
                 std::string message = ss2.str();
                 ssize_t bytes_sent = writen(sock, message.c_str(), message.size());
-                std::cout << "Bytes sent: " << bytes_sent << std::endl;
                 if (bytes_sent < message.size()) {
                     std::cerr << "Error writing to socket\n";
                     return;
@@ -261,12 +256,11 @@ void ClientPlayer::client_commands_thread(int sock) {
                 std::cerr << "You don't have this card.\n";
             }
         }
+        else {
+            std::cerr << "Unknown command.\n";
+        }
     }
 }
-
-
-
-
 
 
 int get_options(Client_Options& options ,int argc, char* argv[]) {
@@ -471,24 +465,25 @@ void process_message(const std::string& message, ClientPlayer& player) {
     else if (message.starts_with("SCORE") || message.starts_with("TOTAL")) {
         std::string score_message = message.substr(5);
         player.set_game_may_be_over(player.get_game_may_be_over() + 1);
-        if (message.starts_with("TOTAL")) {
-            std::cout << "The scores are:\n ";
+        if (message.starts_with("SCORE")) {
+            std::cout << "The scores are:\n";
         }
         else {
-            std::cout << "The total scores are:\n ";
+            std::cout << "The total scores are:\n";
         }
         std::string positions =  "NESW";
-        for (char pos : positions) {
-            auto p = score_message.find(pos);
-            p++;
-            for (auto n_end = p; n_end < score_message.size(); n_end++) {
-                if (score_message[n_end] >= '0' && score_message[n_end] <= '9') {
-                    n_end++;
-                } else {
-                    std::cout << pos << " | " << score_message.substr(p, n_end - p) << "\n";
-                }
-
+        for (int i = 0; i < 4; i++) {
+            std::cout << positions[i];
+            std::cout << " | ";
+            auto index = score_message.find(positions[i]);
+            index++;
+            std::stringstream ss;
+            while(index < score_message.size() && score_message[index] != 'N' && score_message[index] != 'E' && score_message[index] != 'S' && score_message[index] != 'W') {
+                ss << score_message[index];
+                index++;
             }
+            std::cout << ss.str() << "\n";
+
         }
     }
     else if (message.starts_with("TRICK")) {
@@ -545,7 +540,6 @@ int receive_messages(int sock, ClientPlayer& player) {
             }
             return -1;
         }
-        std::cout << "Bytes read: " << bytes_read << std::endl;
 
         data.append(buffer.data(), bytes_read);
 
@@ -553,7 +547,6 @@ int receive_messages(int sock, ClientPlayer& player) {
         while ((pos = data.find("\r\n")) != std::string::npos) {
             std::string message = data.substr(0, pos);
             data.erase(0, pos + 2);
-            std::cout << "Received: " << message << std::endl;
             process_message(message, player);
             // other thread should not alert main thread about losing connection - main will sooner or later also
             // receive the message about losing connection, and we don't want to lose information about messages

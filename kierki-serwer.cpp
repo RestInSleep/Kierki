@@ -76,7 +76,6 @@ void wait_for_all_players(Player *players) {
     if (all_players_connected(players)) {
         return;
     }
-    std::cout << "Waiting for all players to connect" << std::endl;
     g_all_players.wait(lock, [&players] { return all_players_connected(players); });
 }
 
@@ -99,22 +98,20 @@ void send_busy(int connection_fd, Player *players, int pos) {
     busy_message[mess_index++] = '\r';
     busy_message[mess_index++] = '\n';
     writen(connection_fd, busy_message, mess_index);
-    std::cerr << "Busy message sent" << std::endl;
+    std::cerr << "Place is occupied" << std::endl;
 }
 
 
-void thread_get_player(int connection_fd, int &threads_accepting_new_connections, Player *players) {
+void thread_get_player(int connection_fd, sockaddr_storage client_address, int &threads_accepting_new_connections, Player *players) {
     {
         std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
         threads_accepting_new_connections++;
     }
-    char buffer[7];
+    char buffer[256];
 
-    ssize_t length_read = read(connection_fd, buffer, 6);
-    std::cerr << "Length read: " << length_read << std::endl;
+    ssize_t length_read = read(connection_fd, buffer, 128);
 
-    if (length_read != 6) {
-        std::cerr << "Not enough bytes read" << std::endl;
+    if (length_read < 0) {
         {
             std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
             threads_accepting_new_connections--;
@@ -122,6 +119,7 @@ void thread_get_player(int connection_fd, int &threads_accepting_new_connections
         close(connection_fd);
         return;
     }
+
     if (!check_IAM_message(buffer, length_read)) {
         std::cerr << "Not an IAM message" << std::endl;
         {
@@ -146,13 +144,11 @@ void thread_get_player(int connection_fd, int &threads_accepting_new_connections
             close(connection_fd);
             return;
         }
-
+        players[player_no].set_socket_fd(connection_fd);
         // if the game is ongoing, we should send DEAL and TAKEN
         std::unique_lock<std::mutex> round_lock(current_round_mutex);
         if (players[player_no].get_current_round() != nullptr) {
-            //that means the game is ongoing, and we should send DEAL and TAKEN
             round_lock.unlock();
-
             if (players[player_no].send_deal() == -1) {
                 {
                     std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
@@ -174,7 +170,6 @@ void thread_get_player(int connection_fd, int &threads_accepting_new_connections
         }
 
         players[player_no].set_connected(true);
-        players[player_no].set_socket_fd(connection_fd);
         {
             std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
             threads_accepting_new_connections--;
@@ -196,11 +191,13 @@ void th_accept_connections(int new_connections_fd, Player *players) {
                 return threads_accepting_new_connections < MAX_ACCEPTING_THREADS;
             });
         }
-        int connection_fd = accept(new_connections_fd, nullptr, nullptr);
+        struct sockaddr_storage client_address{};
+        socklen_t client_address_len = sizeof client_address;
+        int connection_fd = accept(new_connections_fd, (struct sockaddr *) &client_address, &client_address_len);
         if (connection_fd < 0) {
             continue;
         }
-        std::thread(thread_get_player, connection_fd, std::ref(threads_accepting_new_connections), players).detach();
+        std::thread(thread_get_player, connection_fd, client_address, std::ref(threads_accepting_new_connections), players).detach();
     }
 }
 
@@ -241,7 +238,7 @@ int get_options(Options &options, int argc, char *argv[]) {
 
         // Handle help option before notifying to avoid validating required options
         if (vm.count("help")) {
-            std::cout << desc << "\n";
+            std::cerr << desc << "\n";
             return 0;
         }
 
@@ -331,7 +328,6 @@ void deal_cards(Player *players, std::string *starting_hands) {
             }
         }
         players[i].set_hand(create_card_set_from_string(starting_hands[i]));
-
     }
 }
 
@@ -354,8 +350,13 @@ void game(const Options &options, int new_connections_fd) {
     Player players[4] = {Player(Position::N, options.get_timeout()), Player(Position::E, options.get_timeout()),
                          Player(Position::S, options.get_timeout()), Player(Position::W, options.get_timeout())};
 
+    ReportPrinter printer{};
+    std::thread(&ReportPrinter::printing_thread, &printer).detach();
+
     std::ifstream game_file = open_file(options.get_filename());
     std::thread(th_accept_connections, new_connections_fd, players).detach();
+
+
 
 
     wait_for_all_players(players); // if not all players are connected, blocks until they are
@@ -365,6 +366,7 @@ void game(const Options &options, int new_connections_fd) {
     }
     std::string starting_settings;
     int round_count = 0;
+    int total_scores[4] = {0, 0, 0, 0};
 
     while (std::getline(game_file, starting_settings)) { // there is another round!
         std::string starting_hands[4];
@@ -410,6 +412,28 @@ void game(const Options &options, int new_connections_fd) {
             }
             if (current_round_value == max_points_per_round.at(round.get_round_type())) {
                 break;
+            }
+            round.add_trick(trick);
+        }
+       std::string score = create_score(round);
+        for (auto & player : players) {
+            while (true) {
+                wait_for_all_players(players);
+                if (player.send_score(score) == 0) {
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < NO_OF_PLAYERS; i++) {
+            total_scores[i] += round.get_score(i);
+        }
+        std::string total_score = create_total_score(total_scores);
+        for (auto & player : players) {
+            while (true) {
+                wait_for_all_players(players);
+                if (player.send_total_score(total_score) == 0) {
+                    break;
+                }
             }
         }
     }

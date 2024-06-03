@@ -96,7 +96,6 @@ void Trick::add_card(Card c) {
         this->taking_card = c;
         this->taking_player = this->current_player;
         this->leading_color = c.get_color();
-
     }
     this->current_player = static_cast<Position>((static_cast<int>(this->current_player) + 1) % NO_OF_PLAYERS);
 }
@@ -392,3 +391,10 @@ std::vector<Card> create_card_vector_from_string(const std::string& s) {
     return cards;
 }
 
+int Round::get_score(int i) {
+    return this->scores[i];
+}
+
+void Round::add_trick(const Trick &t) {
+    this->played_tricks.push_back(t);
+}

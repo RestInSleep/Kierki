@@ -65,6 +65,7 @@ enum class Position {
 };
 
 extern const std::unordered_map<char, Position> char_to_position;
+extern const std::unordered_map<Position, char> position_to_char;
 
 class Card {
     card_color_t color;
@@ -127,6 +128,8 @@ public:
     void add_points(int p, Position pos);
     [[nodiscard]] std::string get_starting_hand(Position pos) const;
     std::vector<Trick>& get_played_tricks();
+    int get_score(int i);
+    void add_trick(const Trick& t);
 };
 
 Position get_start_pos_from_sett(std::string& s);

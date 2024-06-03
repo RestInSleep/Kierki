@@ -50,10 +50,10 @@ bool trick_message_is_correct(const std::string &s, std::smatch &match) {
 }
 
 
+
 // This thread should be started after every player is connected first.
 // This is because the condition check !this->connected works well
 // only after disconnection, not before connection.
-//TODO get working
 void Player::reading_thread() {
 
     std::vector<char> buffer(1024);
@@ -365,16 +365,14 @@ int Player::send_deal() {
     ss << "\r\n";
     std::string s = ss.str();
     size_t length = s.size();
-    while (true) {
-        std::unique_lock<std::mutex> lock(this->write_mutex);
-        ssize_t managed_to_write = writen(this->socket_fd, s.c_str(), length);
-        if (managed_to_write < length) { //
-            std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
-            this->connected = false;
-            return -1;
-        }
-        return 0;
+    std::unique_lock<std::mutex> lock(this->write_mutex);
+    ssize_t managed_to_write = writen(this->socket_fd, s.c_str(), length);
+    if (managed_to_write < length) { //
+        std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
+        this->connected = false;
+        return -1;
     }
+    return 0;
 }
 
 
@@ -398,6 +396,53 @@ int Player::send_taken(Trick &t) {
     }
     return 0;
 }
+
+std::string create_score(Round& r) {
+    std::stringstream ss;
+    ss << "SCORE";
+    for (int i = 0; i < 4; i++) {
+        ss << position_no_to_char.at(i);
+        ss << r.get_score(i);
+    }
+    ss << "\r\n";
+    return ss.str();
+}
+
+
+int Player::send_score(const std::string& s) {
+    size_t length = s.size();
+    ssize_t result = writen(this->socket_fd, s.c_str(), length);
+    if (result < length) {
+        std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
+        this->connected = false;
+        return -1;
+    }
+    return 0;
+}
+
+std::string create_total_score(int* total) {
+    std::stringstream ss;
+    ss << "TOTAL";
+    for (int i = 0; i < NO_OF_PLAYERS; i++) {
+        ss << position_no_to_char.at(i);
+        ss << total[i];
+    }
+    ss << "\r\n";
+    return ss.str();
+}
+
+int Player::send_total_score(const std::string& s) {
+    size_t length = s.size();
+    ssize_t result = writen(this->socket_fd, s.c_str(), length);
+    if (result < length) {
+        std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
+        this->connected = false;
+        return -1;
+    }
+    return 0;
+}
+
+
 
 
 void Player::set_current_round(Round *r) {

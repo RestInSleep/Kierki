@@ -74,8 +74,13 @@ public:
     void set_current_round(Round *currentRound);
     [[nodiscard]] int send_trick();
     void set_current_trick(Trick *t);
+    int send_score(const std::string& s);
+    int send_total_score(const std::string& s);
+
 };
 
+std::string create_score(Round& r);
+std::string create_total_score(int* total);
 
 
 #endif //KIERKI_PLAYER_H

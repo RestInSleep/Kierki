@@ -230,3 +230,24 @@ std::string conditional_get_cmd_option(char ** begin, char ** end, const std::fu
     }
     fatal("Option was not given a value despite being mentioned");
 }
+
+void ReportPrinter::printing_thread() {
+    while (true) {
+        std::unique_lock<std::mutex> lock(report_mutex);
+        if (messages.empty()) {
+            not_empty.wait(lock);
+        }
+        std::string message = messages.front();
+        messages.erase(messages.begin());
+        lock.unlock();
+        std::cout << message;
+    }
+}
+
+void ReportPrinter::add_message(const std::string &message) {
+    {
+        std::unique_lock<std::mutex> lock(report_mutex);
+        messages.push_back(message);
+    }
+    not_empty.notify_all();
+}

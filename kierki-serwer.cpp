@@ -87,8 +87,7 @@ void send_busy(int connection_fd, Player *players, int pos) {
     for (int j = 0; j < NO_OF_PLAYERS; j++) {
         if (j == pos) {
             busy_message[mess_index++] = position_no_to_char.at(j);
-        }
-        else {
+        } else {
             std::unique_lock<std::mutex> lock = players[j].get_connection_lock();
             if (players[j].is_connected()) {
                 busy_message[mess_index++] = position_no_to_char.at(j);
@@ -102,7 +101,8 @@ void send_busy(int connection_fd, Player *players, int pos) {
 }
 
 
-void thread_get_player(int connection_fd, sockaddr_storage client_address, int &threads_accepting_new_connections, Player *players) {
+void thread_get_player(int connection_fd, sockaddr_storage client_address, int &threads_accepting_new_connections,
+                       Player *players) {
     {
         std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
         threads_accepting_new_connections++;
@@ -135,7 +135,7 @@ void thread_get_player(int connection_fd, sockaddr_storage client_address, int &
     {
         std::unique_lock<std::mutex> con_lock = players[player_no].get_connection_lock();
         if (players[player_no].is_connected()) {
-           con_lock.unlock();
+            con_lock.unlock();
             {
                 std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
                 threads_accepting_new_connections--;
@@ -157,7 +157,7 @@ void thread_get_player(int connection_fd, sockaddr_storage client_address, int &
                 close(connection_fd);
                 return;
             }
-            for (auto &trick : players[player_no].get_current_round()->get_played_tricks()) {
+            for (auto &trick: players[player_no].get_current_round()->get_played_tricks()) {
                 if (players[player_no].send_taken(trick) == -1) {
                     {
                         std::unique_lock<std::mutex> lock(g_number_of_threads_mutex);
@@ -197,7 +197,8 @@ void th_accept_connections(int new_connections_fd, Player *players) {
         if (connection_fd < 0) {
             continue;
         }
-        std::thread(thread_get_player, connection_fd, client_address, std::ref(threads_accepting_new_connections), players).detach();
+        std::thread(thread_get_player, connection_fd, client_address, std::ref(threads_accepting_new_connections),
+                    players).detach();
     }
 }
 
@@ -345,31 +346,91 @@ void set_current_trick(Player *players, Trick *trick) {
     }
 }
 
-
-void game(const Options &options, int new_connections_fd) {
-    Player players[4] = {Player(Position::N, options.get_timeout()), Player(Position::E, options.get_timeout()),
-                         Player(Position::S, options.get_timeout()), Player(Position::W, options.get_timeout())};
-
-    ReportPrinter printer{};
-    std::thread(&ReportPrinter::printing_thread, &printer).detach();
-
-    std::ifstream game_file = open_file(options.get_filename());
-    std::thread(th_accept_connections, new_connections_fd, players).detach();
-
-
-
-
-    wait_for_all_players(players); // if not all players are connected, blocks until they are
-
-    for (int i = 0; i < NO_OF_PLAYERS; i++) {
-        players[i].start_reading_thread();
+void wait_for_card(Player *players, Position trick_starting_player, int i) {
+    while (true) {
+        wait_for_all_players(players); // it does not block if all players are already connected
+        int result = players[(static_cast<int>(trick_starting_player) + i) % NO_OF_PLAYERS].play_card();
+        if (result == 0) {
+            break;
+        } // play_card already set the is_connected of the player to false if result == -1
     }
-    std::string starting_settings;
-    int round_count = 0;
-    int total_scores[4] = {0, 0, 0, 0};
+}
 
+void send_scores(Player *players, Round &round) {
+    std::string score = create_score(round);
+    for (int i = 0; i < NO_OF_PLAYERS; i++) {
+        while (true) {
+            wait_for_all_players(players);
+            if (players[i].send_score(score) == 0) {
+                break;
+            }
+        }
+    }
+}
+
+void send_total_scores(Player *players, int *total_scores, const Round &round) {
+    for (int i = 0; i < NO_OF_PLAYERS; i++) {
+        total_scores[i] += round.get_score(i);
+    }
+    std::string total_score = create_total_score(total_scores);
+    for (int i = 0; i < NO_OF_PLAYERS; i++) {
+        while (true) {
+            wait_for_all_players(players);
+            if (players[i].send_total_score(total_score) == 0) {
+                break;
+            }
+        }
+    }
+}
+
+
+void send_trick_results(Player *players, Trick &trick) {
+    for (int i = 0; i < NO_OF_PLAYERS; i++) {
+        while (true) {
+            wait_for_all_players(players);
+            if (players[i].send_taken(trick) == 0) {
+                break;
+            }
+        }
+    }
+}
+
+
+void
+settle_trick(Trick &trick, Player *players, Position &trick_starting_player, Round &round, int &current_round_value) {
+    int trick_value = trick.evaluate_trick();
+    Position trick_winner = trick.get_taking_player();
+    players[static_cast<int>(trick_winner)].add_points(trick_value);
+    round.add_points(trick_value, trick_winner);
+    trick_starting_player = trick_winner;
+    current_round_value += trick_value;
+
+}
+
+void run_tricks(Position trick_starting_player, Player *players, Round &round, int &current_round_value) {
+    for (int j = 1; j <= MAX_HAND_SIZE; j++) { // number of tricks
+        Trick trick = Trick(trick_starting_player, j, round.get_round_type());
+        set_current_trick(players, &trick);
+
+        for (int i = 0; i < NO_OF_PLAYERS; i++) {
+            wait_for_card(players, trick_starting_player, i);
+        }
+        // everybody played a card
+        settle_trick(trick, players, trick_starting_player, round, current_round_value);
+
+        send_trick_results(players, trick);
+        if (current_round_value == max_points_per_round.at(round.get_round_type())) {
+            break;
+        }
+        round.add_trick(trick);
+    }
+}
+
+
+void game_loop(Player *players, std::ifstream &game_file, int &round_count, int *total_scores) {
+    std::string starting_settings;
+    std::string starting_hands[4];
     while (std::getline(game_file, starting_settings)) { // there is another round!
-        std::string starting_hands[4];
         int current_round_value = 0;
 
         for (int i = 0; i < NO_OF_PLAYERS; i++) {
@@ -379,64 +440,35 @@ void game(const Options &options, int new_connections_fd) {
         Round round = Round(get_round_type_from_sett(starting_settings),
                             get_start_pos_from_sett(starting_settings),
                             starting_hands);
+
         set_current_round(players, &round);
         deal_cards(players, starting_hands);
         round_count++;
-        Position trick_starting_player = round.get_starting_player();
-        for (int j = 1; j <= MAX_HAND_SIZE; j++) { // number of tricks
-            Trick trick = Trick(trick_starting_player, j, round.get_round_type());
-            set_current_trick(players, &trick);
 
-            for (int i = 0; i < NO_OF_PLAYERS; i++) {
-                while (true) {
-                    wait_for_all_players(players); // it does not block if all players are already connected
-                    int result = players[(static_cast<int>(trick_starting_player) + i) % NO_OF_PLAYERS].play_card();
-                    if (result == 0) {
-                        break;
-                    } // play_card already set the is_connected of the player to false if result == -1
-                }
-            }
-            // everybody played a card
-            int trick_value = trick.evaluate_trick();
-            Position trick_winner = trick.get_taking_player();
-            players[static_cast<int>(trick_winner)].add_points(trick_value);
-            round.add_points(trick_value, trick_winner);
-            trick_starting_player = trick_winner;
-            for (int i = 0; i < NO_OF_PLAYERS; i++) {
-                while (true) {
-                    wait_for_all_players(players);
-                    if (players[i].send_taken(trick) == 0) {
-                        break;
-                    }
-                }
-            }
-            if (current_round_value == max_points_per_round.at(round.get_round_type())) {
-                break;
-            }
-            round.add_trick(trick);
-        }
-       std::string score = create_score(round);
-        for (auto & player : players) {
-            while (true) {
-                wait_for_all_players(players);
-                if (player.send_score(score) == 0) {
-                    break;
-                }
-            }
-        }
-        for (int i = 0; i < NO_OF_PLAYERS; i++) {
-            total_scores[i] += round.get_score(i);
-        }
-        std::string total_score = create_total_score(total_scores);
-        for (auto & player : players) {
-            while (true) {
-                wait_for_all_players(players);
-                if (player.send_total_score(total_score) == 0) {
-                    break;
-                }
-            }
-        }
+        Position trick_starting_player = round.get_starting_player();
+
+        run_tricks(trick_starting_player, players, round, current_round_value);
+
+        send_scores(players, round);
+        send_total_scores(players, total_scores, round);
     }
+}
+
+
+void game(const Options &options, int new_connections_fd) {
+
+    Player players[4] = {Player(Position::N, options.get_timeout()), Player(Position::E, options.get_timeout()),
+                         Player(Position::S, options.get_timeout()), Player(Position::W, options.get_timeout())};
+    ReportPrinter printer{};
+    std::thread(&ReportPrinter::printing_thread, &printer).detach();
+    std::ifstream game_file = open_file(options.get_filename());
+    std::thread(th_accept_connections, new_connections_fd, players).detach();
+    wait_for_all_players(players); // if not all players are connected, blocks until they are
+    std::string starting_settings;
+    int round_count = 0;
+    int total_scores[4] = {0, 0, 0, 0};
+    game_loop(players, game_file, round_count, total_scores);
+
 }
 
 
@@ -448,5 +480,4 @@ int main(int argc, char *argv[]) {
     int new_connections_fd = run_server(options);
     game(options, new_connections_fd);
     return 0;
-
 }

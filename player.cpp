@@ -14,33 +14,24 @@
 std::mutex g_number_of_players_mutex;
 
 Player::Player(Position pos, uint32_t time) : position(pos), timeout(time),
-                                              played_card(card_color_t::NONE, card_value_t::NONE) {
-    auto s = std::set<Card>();
-    this->hand = s;
-    this->no_of_cards = 0;
-    this->current_score = 0;
-    this->connected = false;
-    this->socket_fd = -1;
-    this->my_turn = false;
-    this->card_played = false;
-    this->client_address = {};
-    this->current_round = nullptr;
-    this->current_trick = nullptr;
+                                              played_card(card_color_t::NONE, card_value_t::NONE),
+                                              hand(std::set<Card>()), current_score(0),
+                                                connected(false), socket_fd(-1), my_turn(false),
+                                                card_played(false), client_address({}),
+                                                current_round(nullptr), current_trick(nullptr),
+                                                no_of_cards(0)
+{
+    std::thread(&Player::reading_thread, this).detach();
 }
 
-Player::Player(Position pos) : position(pos), played_card(card_color_t::NONE, card_value_t::NONE) {
-    auto s = std::set<Card>();
-    this->hand = s;
-    this->no_of_cards = 0;
-    this->current_score = 0;
-    this->connected = false;
-    this->socket_fd = -1;
-    this->my_turn = false;
-    this->card_played = false;
-    this->client_address = {};
-    this->timeout = 5;
-    this->current_round = nullptr;
-    this->current_trick = nullptr;
+Player::Player(Position pos) : position(pos), timeout(DEFAULT_TIMEOUT), played_card(card_color_t::NONE, card_value_t::NONE),
+                               hand(std::set<Card>()), current_score(0),
+                               connected(false), socket_fd(-1), my_turn(false),
+                               card_played(false), client_address({}),
+                               current_round(nullptr), current_trick(nullptr),
+                               no_of_cards(0)
+{
+    std::thread(&Player::reading_thread, this).detach();
 }
 
 
@@ -77,7 +68,6 @@ void Player::reading_thread() {
             this->connected = false;
             continue;
         }
-        std::cout << "Read " << bytes_read << " bytes" << std::endl;
 
         data.append(buffer.data(), bytes_read);
 
@@ -130,7 +120,6 @@ void Player::reading_thread() {
                     }
                     continue;
                 }
-                std::cout << "Correct trick message" << std::endl;
                 // can play the card
                 this->played_card = c;
                 this->card_played = true;
@@ -139,7 +128,6 @@ void Player::reading_thread() {
                 this->card_played_cv.notify_all();
             } else {
                 // did not receive a correct trick message - we disconnect
-
                 std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
                 close(this->socket_fd);
                 data = "";
@@ -204,15 +192,14 @@ Card Player::get_biggest_of_color(card_color_t c) const {
 }
 
 // Should be called only if has_card_of_color(c) is true
+// Cards are sorted on the  hand, so we know that
+// if we find a card with the same color as c and
+// smaller value than c, it is the biggest card
+// smaller than c by now
 
 Card Player::get_biggest_smaller_than(Card c) const {
     Card biggest(c.get_color(), card_value_t::TWO);
     for (const auto &card: this->hand) {
-
-        // Cards are sorted on the  hand, so we know that
-        // if we find a card with the same color as c and
-        // smaller value than c, it is the biggest card
-        // smaller than c by now
         if (card.get_color() == c.get_color() && card < c) {
             biggest = card;
         }
@@ -234,9 +221,8 @@ int Player::send_trick() {
     std::string s = ss.str();
     auto length = static_cast<ssize_t>(s.size());
     if (writen(this->socket_fd, s.c_str(), length) < length) {
-        std::cout << "Connection closed" << std::endl;
         std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
-        std::cout << "Connection closed" << std::endl;
+        std::cerr << "Connection closed" << std::endl;
         this->connected = false;
         return -1;
     }
@@ -247,7 +233,6 @@ int Player::send_trick() {
 // returns 0 if card was played, -1 if connection was closed or we need to ping
 int Player::play_card() {
 
-    std::cout << "Playing card" << std::endl;
     std::unique_lock<std::mutex> lock_turn(this->my_turn_mutex);
     my_turn = true;
     {

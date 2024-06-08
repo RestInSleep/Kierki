@@ -11,6 +11,7 @@
 #include <condition_variable>
 #include <netinet/in.h>
 #include <vector>
+#include <queue>
 #include <unordered_map>
 #include <functional>
 #include "cards.h"
@@ -21,6 +22,7 @@
 #define NO_OF_PLAYERS 4
 #define MAX_HAND_SIZE 13
 #define MAX_MESSAGE_SIZE 128
+#define DEFAULT_TIMEOUT 5
 
 
 extern const std::unordered_map<int, char>  position_no_to_char;
@@ -52,11 +54,11 @@ bool conditional_cmd_option_exists(char** begin, char** end, const std::function
 std::string conditional_get_cmd_option(char ** begin, char ** end, const std::function<bool(const std::string&)> &condition);
 
 class ReportPrinter {
-    std::mutex report_mutex;
-    std::vector<std::string> messages;
+    std::mutex queue_mutex;
+    std::queue<std::string> messages;
     std::condition_variable not_empty;
 public:
-    void printing_thread();
+    [[noreturn]]  void printing_thread();
     void add_message(const std::string& message);
 };
 

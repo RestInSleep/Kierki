@@ -20,10 +20,6 @@
 
 
 
-
-
-
-
 uint16_t read_port(char const *string) {
     char *endptr;
     errno = 0;
@@ -231,14 +227,24 @@ std::string conditional_get_cmd_option(char ** begin, char ** end, const std::fu
     fatal("Option was not given a value despite being mentioned");
 }
 
-void ReportPrinter::printing_thread() {
+
+
+ReportPrinter::ReportPrinter() {
+    std::thread t(&ReportPrinter::printing_thread, this);
+    t.detach();
+}
+
+ void ReportPrinter::printing_thread() {
     while (true) {
-        std::unique_lock<std::mutex> lock(report_mutex);
+        std::unique_lock<std::mutex> lock(queue_mutex);
         if (messages.empty()) {
             not_empty.wait(lock);
         }
+        if (messages.empty()) {
+            continue;
+        }
         std::string message = messages.front();
-        messages.erase(messages.begin());
+        messages.pop();
         lock.unlock();
         std::cout << message;
     }
@@ -246,8 +252,8 @@ void ReportPrinter::printing_thread() {
 
 void ReportPrinter::add_message(const std::string &message) {
     {
-        std::unique_lock<std::mutex> lock(report_mutex);
-        messages.push_back(message);
+        std::unique_lock<std::mutex> lock(queue_mutex);
+        messages.emplace(message);
     }
     not_empty.notify_all();
 }

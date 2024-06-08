@@ -391,7 +391,7 @@ std::vector<Card> create_card_vector_from_string(const std::string& s) {
     return cards;
 }
 
-int Round::get_score(int i) {
+int Round::get_score(int i) const {
     return this->scores[i];
 }
 

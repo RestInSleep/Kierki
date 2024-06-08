@@ -8,7 +8,6 @@
 #include "common.h"
 #include "cards.h"
 
-
 #define MAX_MESSAGE_SIZE 128
 
 extern std::mutex g_number_of_players_mutex;
@@ -37,8 +36,10 @@ class Player {
 
 public:
 
-    explicit Player(Position pos, uint32_t time);
+    Player(Position pos, uint32_t time);
     explicit Player(Position pos);
+
+
 
     [[nodiscard]] int get_timeout() const;
     [[nodiscard]] Position get_pos() const;

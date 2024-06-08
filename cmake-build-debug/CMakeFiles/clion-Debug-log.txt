@@ -1,4 +1,11 @@
-/home/jan/Downloads/clion-2023.3/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/jan/Downloads/clion-2023.3/bin/ninja/linux/x64/ninja -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -G Ninja -S /home/jan/CLionProjects/untitled4 -B /home/jan/CLionProjects/untitled4/cmake-build-debug
--- Configuring done (0.0s)
--- Generating done (0.0s)
--- Build files have been written to: /home/jan/CLionProjects/untitled4/cmake-build-debug
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /Users/janjagodzinski/CLionProjects/Kierki -B /Users/janjagodzinski/CLionProjects/Kierki/cmake-build-debug
+CMake Error at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake:230 (message):
+  Could NOT find Boost (missing: Boost_INCLUDE_DIR program_options
+  filesystem) (Required is at least version "1.74.0")
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake:600 (_FPHSA_FAILURE_MESSAGE)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.26/Modules/FindBoost.cmake:2377 (find_package_handle_standard_args)
+  CMakeLists.txt:6 (find_package)
+
+
+-- Configuring incomplete, errors occurred!

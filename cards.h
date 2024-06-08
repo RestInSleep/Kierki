@@ -128,7 +128,7 @@ public:
     void add_points(int p, Position pos);
     [[nodiscard]] std::string get_starting_hand(Position pos) const;
     std::vector<Trick>& get_played_tricks();
-    int get_score(int i);
+    int get_score(int i) const;
     void add_trick(const Trick& t);
 };
 

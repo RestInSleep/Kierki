@@ -27,17 +27,21 @@ class Player {
     std::mutex my_turn_mutex;
     std::mutex write_mutex;
     std::condition_variable card_played_cv;
-    struct sockaddr_storage client_address{};
+    std::string client_ip;
+    int client_port;
+    std::string server_interface_ip;
+    int server_port;
+
     uint32_t timeout;
     Round* current_round;
     Trick* current_trick;
-    void reading_thread();
+    void reading_thread(ReportPrinter &printer);
 
 
 public:
 
-    Player(Position pos, uint32_t time);
-    explicit Player(Position pos);
+    Player(Position pos, uint32_t time, int server_port);
+    explicit Player(Position pos, int server_port);
 
 
 
@@ -46,10 +50,20 @@ public:
     [[nodiscard]] int get_no_of_cards() const;
     [[nodiscard]] int get_current_score() const;
     [[nodiscard]] bool is_connected() const;
+    std::string get_client_ip();
+    [[nodiscard]] int get_client_port() const;
+    std::string get_server_interface_ip();
+    [[nodiscard]] int get_server_port() const;
+
 
     void set_socket_fd(int fd);
     void set_connected(bool c);
     void set_played_card(Card c);
+
+    void set_client_ip(const std::string& ip);
+    void set_client_port(int port);
+    void set_server_interface_ip(const std::string& ip);
+    void set_server_port(int port);
 
 
     void add_card(Card c);
@@ -65,18 +79,18 @@ public:
 
     void start_reading_thread();
     void notify_connection();
-    int play_card();
+    int play_card(ReportPrinter& printer);
     void set_hand(const std::set<Card>& h);
     void add_points(int p);
     void print_hand();
-    int send_deal();
-    int send_taken(Trick& t);
+    int send_deal(ReportPrinter& rp);
+    int send_taken(Trick& t, ReportPrinter& rp);
     [[nodiscard]] Round * get_current_round() const;
     void set_current_round(Round *currentRound);
-    [[nodiscard]] int send_trick();
+    [[nodiscard]] int send_trick(ReportPrinter& printer);
     void set_current_trick(Trick *t);
-    int send_score(const std::string& s);
-    int send_total_score(const std::string& s);
+    int send_score(const std::string& s, ReportPrinter& printer);
+    int send_total_score(const std::string& s, ReportPrinter& printer);
 
 };
 

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Kierki"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\usr\;CMake Files\..\..\usr\lib\;CMake Files\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\Boost-1.74.0\;CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_headers-1.74.0\;CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_program_options-1.74.0\;CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.74.0\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/tmp/Kierki/cmake-build-debug-students"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="kierki-serwer">
+				<Option output="/tmp/Kierki/cmake-build-debug-students/kierki-serwer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/Kierki/cmake-build-debug-students"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ALL_NO_LIB"/>
+					<Add option="-DBOOST_PROGRAM_OPTIONS_DYN_LINK"/>
+					<Add option="-DBOOST_FILESYSTEM_DYN_LINK"/>
+					<Add directory="/usr/include/c++/12"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/12"/>
+					<Add directory="/usr/include/c++/12/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/12/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 kierki-serwer"/>
+					<CompileFile command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="kierki-serwer/fast">
+				<Option output="/tmp/Kierki/cmake-build-debug-students/kierki-serwer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/Kierki/cmake-build-debug-students"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ALL_NO_LIB"/>
+					<Add option="-DBOOST_PROGRAM_OPTIONS_DYN_LINK"/>
+					<Add option="-DBOOST_FILESYSTEM_DYN_LINK"/>
+					<Add directory="/usr/include/c++/12"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/12"/>
+					<Add directory="/usr/include/c++/12/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/12/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 kierki-serwer/fast"/>
+					<CompileFile command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="kierki-klient">
+				<Option output="/tmp/Kierki/cmake-build-debug-students/kierki-klient" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/Kierki/cmake-build-debug-students"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ALL_NO_LIB"/>
+					<Add option="-DBOOST_PROGRAM_OPTIONS_DYN_LINK"/>
+					<Add option="-DBOOST_FILESYSTEM_DYN_LINK"/>
+					<Add directory="/usr/include/c++/12"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/12"/>
+					<Add directory="/usr/include/c++/12/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/12/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 kierki-klient"/>
+					<CompileFile command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="kierki-klient/fast">
+				<Option output="/tmp/Kierki/cmake-build-debug-students/kierki-klient" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/Kierki/cmake-build-debug-students"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ALL_NO_LIB"/>
+					<Add option="-DBOOST_PROGRAM_OPTIONS_DYN_LINK"/>
+					<Add option="-DBOOST_FILESYSTEM_DYN_LINK"/>
+					<Add directory="/usr/include/c++/12"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/12"/>
+					<Add directory="/usr/include/c++/12/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/12/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 kierki-klient/fast"/>
+					<CompileFile command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/tmp/Kierki/cmake-build-debug-students"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/tmp/Kierki/cmake-build-debug-students"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j88 -f &quot;/tmp/Kierki/cmake-build-debug-students/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/tmp/Kierki/cards.cpp">
+			<Option target="kierki-serwer"/>
+			<Option target="kierki-klient"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/cards.h">
+			<Option target="kierki-serwer"/>
+			<Option target="kierki-klient"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/common.cpp">
+			<Option target="kierki-serwer"/>
+			<Option target="kierki-klient"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/common.h">
+			<Option target="kierki-serwer"/>
+			<Option target="kierki-klient"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/err.cpp">
+			<Option target="kierki-serwer"/>
+			<Option target="kierki-klient"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/err.h">
+			<Option target="kierki-serwer"/>
+			<Option target="kierki-klient"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/kierki-klient.cpp">
+			<Option target="kierki-klient"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/kierki-klient.h">
+			<Option target="kierki-klient"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/kierki-serwer.cpp">
+			<Option target="kierki-serwer"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/kierki-serwer.h">
+			<Option target="kierki-serwer"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/player.cpp">
+			<Option target="kierki-serwer"/>
+			<Option target="kierki-klient"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/player.h">
+			<Option target="kierki-serwer"/>
+			<Option target="kierki-klient"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/BoostDetectToolset-1.74.0.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\Boost-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\Boost-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.74.0/boost_headers-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_headers-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.74.0/boost_headers-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_headers-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/boost_program_options-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_program_options-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/boost_program_options-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_program_options-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/libboost_program_options-variant-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_program_options-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/boost_program_options-1.74.0/libboost_program_options-variant-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_program_options-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/boost_filesystem-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/boost_filesystem-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/libboost_filesystem-variant-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.74.0\"/>
+		</Unit>
+		<Unit filename="/tmp/Kierki/../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.74.0/libboost_filesystem-variant-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.74.0\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <algorithm>
 #include <functional>
+#include <iomanip>
 #include "err.h"
 #include "cards.h"
 #include "common.h"
@@ -63,94 +64,6 @@ bool check_IAM_message(const char *buffer, ssize_t length_read) {
 // Returns 0 if the message is not a correct prefix
 // Returns 1 if the message is a correct prefix
 // Returns 2 if the message is a correct TRICK mess,age
-
-int check_TRICK_from_client(const char *buffer, ssize_t length_read) {
-
-    static const std::string trick = "TRICK";
-    static const std::string tr_regex6 = "TRICK[1-9]";
-    static const std::string tr_regex7_1 = "TRICK[1-9][23456789JQKA]";
-    static const std::string tr_regex7_2 = "TRICK[1-9]1";
-    static const std::string tr_regex7_3 = "TRICK1[0-3]";
-    static const std::string tr_regex8_1 = "TRICK[1-9][23456789JQKA][CDHS]";
-    static const std::string tr_regex8_2 = "TRICK[1-9]10";
-    static const std::string tr_regex8_3 = "TRICK1[0-3][23456789JQKA]";
-    static const std::string tr_regex8_4 = "TRICK1[0-3]1";
-    static const std::string tr_regex9_1 = "TRICK[1-9][23456789JQKA][CDHS]\r";
-    static const std::string tr_regex9_2 = "TRICK[1-9]10[CDHS]";
-    static const std::string tr_regex9_3 = "TRICK1[0-3][23456789JQKA][CDHS]";
-    static const std::string tr_regex9_4 = "TRICK1[0-3]10";
-    static const std::string tr_regex10_1 = "TRICK[1-9][23456789JQKA][CDHS]\r\n";
-    static const std::string tr_regex10_2 = "TRICK[1-9]10[CDHS]\r";
-    static const std::string tr_regex10_3 = "TRICK1[0-3][23456789JQKA][CDHS]\r";
-    static const std::string tr_regex10_4 = "TRICK1[0-3]10[CDHS]";
-    static const std::string tr_regex11_2 = "TRICK[1-9]10[CDHS]\r\n";
-    static const std::string tr_regex11_3 = "TRICK1[0-3][23456789JQKA][CDHS]\r\n";
-    static const std::string tr_regex11_4 = "TRICK1[0-3]10[CDHS]\r";
-    static const std::string tr_regex12_4 = "TRICK1[0-3]10[CDHS]\r\n";
-
-    std::string mess{};
-    mess.assign(buffer, length_read);
-    switch (length_read) {
-        case 6:
-            if (std::regex_match(mess, std::regex(tr_regex6))) {
-                return 1;
-            }
-            return 0;
-        case 7:
-            if (std::regex_match(mess, std::regex(tr_regex7_1)) ||
-                std::regex_match(mess, std::regex(tr_regex7_2)) ||
-                std::regex_match(mess, std::regex(tr_regex7_3))) {
-                return 1;
-            }
-            return 0;
-        case 8:
-            if (std::regex_match(mess, std::regex(tr_regex8_1)) ||
-                std::regex_match(mess, std::regex(tr_regex8_2)) ||
-                std::regex_match(mess, std::regex(tr_regex8_3)) ||
-                std::regex_match(mess, std::regex(tr_regex8_4))) {
-                return 1;
-            }
-            return 0;
-        case 9:
-            if (std::regex_match(mess, std::regex(tr_regex9_1)) ||
-                std::regex_match(mess, std::regex(tr_regex9_2)) ||
-                std::regex_match(mess, std::regex(tr_regex9_3)) ||
-                std::regex_match(mess, std::regex(tr_regex9_4))) {
-                return 1;
-            }
-            return 0;
-        case 10:
-            if (std::regex_match(mess, std::regex(tr_regex10_1))) {
-                return 2;
-            }
-            if (std::regex_match(mess, std::regex(tr_regex10_2)) ||
-                std::regex_match(mess, std::regex(tr_regex10_3)) ||
-                std::regex_match(mess, std::regex(tr_regex10_4))) {
-                return 1;
-            }
-            return 0;
-        case 11:
-            if (std::regex_match(mess, std::regex(tr_regex11_2)) ||
-                std::regex_match(mess, std::regex(tr_regex11_3))) {
-                return 2;
-            }
-            if (std::regex_match(mess, std::regex(tr_regex11_4))) {
-                return 1;
-            }
-            return 0;
-        case 12:
-            if (std::regex_match(mess, std::regex(tr_regex12_4))) {
-                return 1;
-            }
-            return 0;
-        default:
-            if (trick.starts_with(mess)) {
-                return 1;
-            }
-            return 0;
-    }
-}
-
 
 
 // Write n bytes to a descriptor.
@@ -228,11 +141,98 @@ std::string conditional_get_cmd_option(char ** begin, char ** end, const std::fu
 }
 
 
+std::string getFormattedTimestamp() {
+    using namespace std::chrono;
+
+    auto now = system_clock::now();
+
+    auto now_time_t = system_clock::to_time_t(now);
+
+    auto now_ms = duration_cast<milliseconds>(now.time_since_epoch()) % 1000;
+
+    std::tm now_tm = *std::gmtime(&now_time_t);
+
+    std::ostringstream oss;
+    oss << std::put_time(&now_tm, "%Y-%m-%dT%H:%M:%S") << '.' << std::setfill('0') << std::setw(3) << now_ms.count();
+
+    return oss.str();
+}
+
+
 
 ReportPrinter::ReportPrinter() {
     std::thread t(&ReportPrinter::printing_thread, this);
     t.detach();
 }
+
+void ReportPrinter::add_report_log_to_client(const std::string &message, Player &p) {
+    std::string log = "[";
+    log += p.get_server_interface_ip();
+    log += ":";
+    log += std::to_string(p.get_server_port());
+    log += ",";
+    log += p.get_client_ip();
+    log += ":";
+    log += std::to_string(p.get_client_port());
+    log += ",";
+    log += getFormattedTimestamp();
+    log += "] ";
+    log += message;
+    add_message(log);
+}
+
+void ReportPrinter::add_report_log_from_client(const std::string &message, Player &p) {
+
+    std::string log = "[";
+    log += p.get_client_ip();
+    log += ":";
+    log += std::to_string(p.get_client_port());
+    log += ",";
+    log += p.get_server_interface_ip();
+    log += ":";
+    log += std::to_string(p.get_server_port());
+    log += ",";
+    log += getFormattedTimestamp();
+    log += "] ";
+    log += message;
+    add_message(log);
+}
+
+void ReportPrinter::add_report_log_to_client(const std::string &message, const std::string& server_ip, int server_port,
+                                               const std::string& client_ip, int client_port) {
+    std::string log = "[";
+    log += server_ip;
+    log += ":";
+    log += std::to_string(server_port);
+    log += ",";
+    log += client_ip;
+    log += ":";
+    log += std::to_string(client_port);
+    log += ",";
+    log += getFormattedTimestamp();
+    log += "] ";
+    log += message;
+    add_message(log);
+}
+
+void ReportPrinter::add_report_log_from_client(const std::string &message, const std::string& server_ip, int server_port,
+                                                 const std::string& client_ip, int client_port) {
+    std::string log = "[";
+    log += client_ip;
+    log += ":";
+    log += std::to_string(client_port);
+    log += ",";
+    log += server_ip;
+    log += ":";
+    log += std::to_string(server_port);
+    log += ",";
+    log += getFormattedTimestamp();
+    log += "] ";
+    log += message;
+    add_message(log);
+}
+
+
 
  void ReportPrinter::printing_thread() {
     while (true) {

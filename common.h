@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <functional>
 #include "cards.h"
+#include "player.h"
 
 
 
@@ -58,8 +59,15 @@ class ReportPrinter {
     std::queue<std::string> messages;
     std::condition_variable not_empty;
 public:
+    ReportPrinter();
     [[noreturn]]  void printing_thread();
     void add_message(const std::string& message);
+    void add_report_log_to_client(const std::string& message, Player& p);
+    void add_report_log_from_client(const std::string& message, Player& p);
+    void add_report_log_to_client(const std::string& message, const std::string& server_ip, int server_port,
+                                    const std::string& client_ip, int client_port);
+    void add_report_log_from_client(const std::string& message, const std::string& server_ip, int server_port,
+                                      const std::string& client_ip, int client_port);
 };
 
 

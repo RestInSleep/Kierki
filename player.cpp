@@ -13,23 +13,26 @@
 
 std::mutex g_number_of_players_mutex;
 
-Player::Player(Position pos, uint32_t time) : position(pos), timeout(time),
+Player::Player(Position pos, uint32_t time, int server_port) : position(pos), timeout(time),
                                               played_card(card_color_t::NONE, card_value_t::NONE),
                                               hand(std::set<Card>()), current_score(0),
                                                 connected(false), socket_fd(-1), my_turn(false),
-                                                card_played(false), client_address({}),
+                                                card_played(false),
                                                 current_round(nullptr), current_trick(nullptr),
-                                                no_of_cards(0)
+                                                no_of_cards(0), client_port(0),
+                                                server_port(server_port)
+
 {
     std::thread(&Player::reading_thread, this).detach();
 }
 
-Player::Player(Position pos) : position(pos), timeout(DEFAULT_TIMEOUT), played_card(card_color_t::NONE, card_value_t::NONE),
+Player::Player(Position pos, int server_port) : position(pos), timeout(DEFAULT_TIMEOUT), played_card(card_color_t::NONE, card_value_t::NONE),
                                hand(std::set<Card>()), current_score(0),
                                connected(false), socket_fd(-1), my_turn(false),
-                               card_played(false), client_address({}),
+                               card_played(false),
                                current_round(nullptr), current_trick(nullptr),
-                               no_of_cards(0)
+                               no_of_cards(0), client_port(0),
+                               server_port(server_port)
 {
     std::thread(&Player::reading_thread, this).detach();
 }
@@ -45,7 +48,7 @@ bool trick_message_is_correct(const std::string &s, std::smatch &match) {
 // This thread should be started after every player is connected first.
 // This is because the condition check !this->connected works well
 // only after disconnection, not before connection.
-void Player::reading_thread() {
+void Player::reading_thread(ReportPrinter &printer) {
 
     std::vector<char> buffer(1024);
     std::string data;
@@ -54,13 +57,17 @@ void Player::reading_thread() {
             std::unique_lock<std::mutex> lock(this->connection_mutex);
             if (!this->connected) {
                 // hang until we are connected
-                this->connection_cv.wait(lock, [this] { return this->connected; });
+                this->connection_cv.wait(lock, [this] {return this->connected;});
                 // now we are connected again
             }
         }
         ssize_t bytes_read = read(this->socket_fd, buffer.data(), buffer.size());
         if (bytes_read < 0) {
-            syserr("read");
+            std::cerr << "Error" << std::endl;
+            std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
+            data = "";
+            this->connected = false;
+            continue;
         } else if (bytes_read == 0) {
             std::cerr << "Connection closed by peer" << std::endl;
             std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
@@ -70,33 +77,19 @@ void Player::reading_thread() {
         }
 
         data.append(buffer.data(), bytes_read);
-
         size_t pos;
         while ((pos = data.find("\r\n")) != std::string::npos) {
-            if (data.length() > MAX_MESSAGE_SIZE) {
-                //TODO - add to log queue - remember to curtail the message to 128 max
-                data = "";
-                close(this->socket_fd);
-                this->connected = false;
-                continue;
-            }
             std::string message = data.substr(0, pos);
             data.erase(0, pos + 2);
             std::smatch match;
-            std::cout << "Received message: " << message << std::endl;
             // client sent correct trick message
             if (trick_message_is_correct(message, match)) {
-
                 int trick_number = std::stoi(match[1].str());
-                std::cout << "Trick number: " << trick_number << std::endl;
                 card_value_t value = string_to_value.at(match[4].str());
-                std::cout << "Value: " << static_cast<int>(value) << std::endl;
                 card_color_t color = char_to_color.at(match[5].str()[0]);
-                std::cout << "Color: " << static_cast<int>(color) << std::endl;
                 Card c(color, value);
 
                 std::unique_lock<std::mutex> turn_lock(this->my_turn_mutex);
-                std::cout <<"My turn: " << this->my_turn << std::endl;
 
                 if (!this->my_turn || !this->has_card(c) ||
                     (this->current_trick->get_leading_color() != card_color_t::NONE &&
@@ -112,15 +105,20 @@ void Player::reading_thread() {
                     auto length = static_cast<ssize_t>(s_wrong.size());
                     ssize_t managed_to_write = writen(this->socket_fd, s_wrong.c_str(), length);
                     if (managed_to_write < length) {
+                        std::string short_message = s_wrong.substr(0, managed_to_write);
+                        printer.add_report_log_to_client(short_message, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
                         std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
                         data = "";
                         close(this->socket_fd);
                         this->connected = false;
                         continue;
                     }
+                    printer.add_report_log_to_client(s_wrong, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
                     continue;
                 }
                 // can play the card
+                message += "\r\n";
+                printer.add_report_log_from_client(message, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
                 this->played_card = c;
                 this->card_played = true;
                 this->my_turn = false;
@@ -133,6 +131,15 @@ void Player::reading_thread() {
                 data = "";
                 this->connected = false;
             }
+        }
+        if (data.length() >= MAX_MESSAGE_SIZE) {
+            std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
+            data.substr(0, MAX_MESSAGE_SIZE - 1); // cut the message
+            printer.add_report_log_from_client(data, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
+            data = "";
+            close(this->socket_fd);
+            this->connected = false;
+            continue;
         }
     }
 }
@@ -208,8 +215,7 @@ Card Player::get_biggest_smaller_than(Card c) const {
 }
 
 
-int Player::send_trick() {
-    std::cout << "Sending trick" << std::endl;
+int Player::send_trick(ReportPrinter &printer) {
     std::stringstream ss;
     ss << "TRICK";
     ss << current_trick->get_trick_number();
@@ -218,26 +224,29 @@ int Player::send_trick() {
         ss << color_to_char.at(c.get_color());
     }
     ss << "\r\n";
-    std::string s = ss.str();
-    auto length = static_cast<ssize_t>(s.size());
-    if (writen(this->socket_fd, s.c_str(), length) < length) {
+    std::string message = ss.str();
+    auto length = static_cast<ssize_t>(message.size());
+    auto managed_to_write = writen(this->socket_fd, message.c_str(), length);
+    if (managed_to_write < length) {
+        std::string short_message = message.substr(0, managed_to_write);
+        printer.add_report_log_to_client(short_message, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
         std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
         std::cerr << "Connection closed" << std::endl;
         this->connected = false;
         return -1;
     }
-
+    printer.add_report_log_to_client(message, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
     return 0;
 }
 
 // returns 0 if card was played, -1 if connection was closed or we need to ping
-int Player::play_card() {
+int Player::play_card(ReportPrinter &printer) {
 
     std::unique_lock<std::mutex> lock_turn(this->my_turn_mutex);
     my_turn = true;
     {
         std::unique_lock<std::mutex> lock_write(this->write_mutex);
-        if (this->send_trick() < 0) {
+        if (this->send_trick(printer) < 0) {
             std::cerr << "Connection closed2" << std::endl;
             return -1;
         }
@@ -298,9 +307,41 @@ int Player::get_timeout() const {
     return this->timeout;
 }
 
+std::string Player::get_client_ip() {
+    return this->client_ip;
+}
+
+int Player::get_client_port() const {
+    return this->client_port;
+}
+
+std::string Player::get_server_interface_ip() {
+    return this->server_interface_ip;
+}
+
+int Player::get_server_port() const {
+    return this->server_port;
+}
+
 
 int Player::get_current_score() const {
     return this->current_score;
+}
+
+void Player::set_client_ip(const std::string &ip) {
+    this->client_ip = ip;
+}
+
+void Player::set_client_port(int port) {
+    this->client_port = port;
+}
+
+void Player::set_server_interface_ip(const std::string &ip) {
+    this->server_interface_ip = ip;
+}
+
+void Player::set_server_port(int port) {
+    this->server_port = port;
 }
 
 
@@ -340,7 +381,7 @@ void Player::print_hand() {
 
 
 // Returns 0 if sending was successful, -1 if connection was closed, -2 if error occurred
-int Player::send_deal() {
+int Player::send_deal(ReportPrinter &printer) {
     std::stringstream ss;
     ss << "DEAL";
     Round *r = this->current_round;
@@ -348,20 +389,23 @@ int Player::send_deal() {
     ss << position_no_to_char.at(static_cast<int>(r->get_starting_player()));
     ss << r->get_starting_hand(this->position);
     ss << "\r\n";
-    std::string s = ss.str();
-    size_t length = s.size();
+    std::string message = ss.str();
+    size_t length = message.size();
     std::unique_lock<std::mutex> lock(this->write_mutex);
-    ssize_t managed_to_write = writen(this->socket_fd, s.c_str(), length);
+    ssize_t managed_to_write = writen(this->socket_fd, message.c_str(), length);
     if (managed_to_write < length) { //
+        std::string short_message = message.substr(0, managed_to_write);
+        printer.add_report_log_to_client(short_message, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
         std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
         this->connected = false;
         return -1;
     }
+    printer.add_report_log_to_client(message, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
     return 0;
 }
 
 
-int Player::send_taken(Trick &t) {
+int Player::send_taken(Trick &t, ReportPrinter &printer) {
     std::stringstream ss;
     ss << "TAKEN";
     ss << t.get_trick_number();
@@ -371,14 +415,17 @@ int Player::send_taken(Trick &t) {
     }
     ss << position_no_to_char.at(static_cast<int>(t.get_taking_player()));
     ss << "\r\n";
-    std::string s = ss.str();
-    size_t length = s.size();
-    ssize_t result = writen(this->socket_fd, s.c_str(), length);
-    if (result < length) {
+    std::string message = ss.str();
+    size_t length = message.size();
+    ssize_t managed_to_write = writen(this->socket_fd, message.c_str(), length);
+    if (managed_to_write < length) {
+        std::string short_message = message.substr(0, managed_to_write);
+        printer.add_report_log_to_client(short_message, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
         std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
         this->connected = false;
         return -1;
     }
+    printer.add_report_log_to_client(message, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
     return 0;
 }
 
@@ -394,14 +441,17 @@ std::string create_score(Round& r) {
 }
 
 
-int Player::send_score(const std::string& s) {
+int Player::send_score(const std::string& s, ReportPrinter& printer) {
     size_t length = s.size();
-    ssize_t result = writen(this->socket_fd, s.c_str(), length);
-    if (result < length) {
+    ssize_t managed_to_write = writen(this->socket_fd, s.c_str(), length);
+    if (managed_to_write < length) {
+       std::string short_message = s.substr(0, managed_to_write);
+       printer.add_report_log_to_client(short_message, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
         std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
         this->connected = false;
         return -1;
     }
+    printer.add_report_log_to_client(s, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
     return 0;
 }
 
@@ -416,14 +466,17 @@ std::string create_total_score(int* total) {
     return ss.str();
 }
 
-int Player::send_total_score(const std::string& s) {
+int Player::send_total_score(const std::string& s, ReportPrinter& printer) {
     size_t length = s.size();
-    ssize_t result = writen(this->socket_fd, s.c_str(), length);
-    if (result < length) {
+    ssize_t managed_to_write = writen(this->socket_fd, s.c_str(), length);
+    if (managed_to_write < length) {
+        std::string short_message = s.substr(0, managed_to_write);
+        printer.add_report_log_to_client(short_message, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
         std::unique_lock<std::mutex> lock_conn(this->connection_mutex);
         this->connected = false;
         return -1;
     }
+    printer.add_report_log_to_client(s, this->server_interface_ip, this->server_port, this->client_ip, this->client_port);
     return 0;
 }
 

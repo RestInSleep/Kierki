@@ -1,0 +1,4 @@
+/tmp/Kierki/cmake-build-debug-students/CMakeFiles/kierki-serwer.dir
+/tmp/Kierki/cmake-build-debug-students/CMakeFiles/kierki-klient.dir
+/tmp/Kierki/cmake-build-debug-students/CMakeFiles/edit_cache.dir
+/tmp/Kierki/cmake-build-debug-students/CMakeFiles/rebuild_cache.dir

@@ -7,7 +7,9 @@
 
 
 #include "player.h"
-#define MAX_ACCEPTING_THREADS 4
+#define MAX_ACCEPTING_THREADS 10
+#define BUFFER_SIZE 128
+#define I_AM_LENGTH 6
 class Options {
     uint16_t port;
     std::string filename;

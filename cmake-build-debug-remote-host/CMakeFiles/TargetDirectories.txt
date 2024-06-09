@@ -1,0 +1,4 @@
+/tmp/tmp.Fg424r080S/cmake-build-debug-remote-host/CMakeFiles/kierki-serwer.dir
+/tmp/tmp.Fg424r080S/cmake-build-debug-remote-host/CMakeFiles/kierki-klient.dir
+/tmp/tmp.Fg424r080S/cmake-build-debug-remote-host/CMakeFiles/edit_cache.dir
+/tmp/tmp.Fg424r080S/cmake-build-debug-remote-host/CMakeFiles/rebuild_cache.dir
